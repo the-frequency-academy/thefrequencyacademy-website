@@ -196,18 +196,18 @@
       <button id="popup-close" onclick="closePopup()">&#x2715; close</button>
       <div id="popup-form">
         <div class="popup-orb"></div>
-        <div class="popup-eyebrow">Free Gift from BabaKeegs</div>
-        <h2>Meet Your Higher Self</h2>
-        <p>Enter your name and email to receive instant access to a free 35-minute guided meditation — recorded over a 528Hz + 432Hz frequency soundtrack.</p>
+        <div class="popup-eyebrow">&#x2736; Exclusive Free Gift</div>
+        <h2>Get Your Free Gift</h2>
+        <p>Enter your email below and receive instant access to <strong style="color:var(--sedona-light);">Meet Your Higher Self</strong> — a free 35-minute guided meditation recorded by BabaKeegs over a 528Hz + 432Hz frequency soundtrack.</p>
         <input type="text" id="pop-name" class="popup-field" placeholder="Your first name" />
         <input type="email" id="pop-email" class="popup-field" placeholder="Your email address" />
-        <button class="popup-btn" onclick="submitPopup()">Receive the Transmission &#x2736;</button>
+        <button class="popup-btn" onclick="submitPopup()">Send Me My Free Gift &#x2736;</button>
         <div class="popup-fine">No spam. No noise. Only signal.</div>
       </div>
       <div id="popup-success">
         <div class="s-icon">&#x2736;</div>
         <h3 id="popup-greeting">The door is open.</h3>
-        <p>Your meditation is ready. Begin any time you are ready to remember.</p>
+        <p>Your free meditation is waiting. Click below to begin — and check your email for the link so you can return any time.</p>
         <a href="higher-self/" class="popup-access-btn">Begin the Meditation &rarr;</a>
       </div>
     </div>
@@ -378,7 +378,7 @@
     <div class="meditation-inner">
       <div class="meditation-text reveal">
         <div class="section-label">Free Gift · MS4</div>
-        <h2>Meet Your Higher Self</h2>
+        <h2>Get Your Free Gift</h2>
         <p>A 35-minute guided transmission to dissolve the static between who you think you are — and who you truly are.</p>
         <p>Recorded by BabaKeegs over a 528Hz + 432Hz frequency soundtrack. Yours free. No account required.</p>
         <ul class="phases-list">
@@ -661,7 +661,7 @@
     const leads=JSON.parse(localStorage.getItem('tfa-leads')||'[]');
     leads.push({name:n,last:document.getElementById('f-last').value.trim(),email:e,phone:document.getElementById('f-phone').value.trim(),interest:document.getElementById('f-interest').value,msg:document.getElementById('f-msg').value.trim(),ts:new Date().toISOString()});
     localStorage.setItem('tfa-leads',JSON.stringify(leads));
-    fetch('https://formspree.io/f/YOUR_FORM_ID',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:n,email:e,source:'thefrequencyacademy.net'})}).catch(()=>{});
+    fetch('https://formspree.io/f/xjgpkkln',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:n,email:e,source:'thefrequencyacademy.net'})}).catch(()=>{});
     document.getElementById('lead-form').style.display='none';
     document.getElementById('form-success').classList.add('show');
     document.getElementById('success-msg').textContent='Thank you, '+n+'. Your signal has been received. BabaKeegs will be in touch personally — usually within 24\u201348 hours.';
@@ -720,7 +720,7 @@ window.addEventListener('DOMContentLoaded', function() {
     leads.push({name:name,email:email,source:'popup-higher-self',ts:new Date().toISOString()});
     localStorage.setItem('tfa-leads',JSON.stringify(leads));
     localStorage.setItem('tfa-popup-shown','1');
-    fetch('https://formspree.io/f/YOUR_FORM_ID',{
+    fetch('https://formspree.io/f/xjgpkkln',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({name:name,email:email,source:'popup-higher-self',ts:new Date().toISOString()})
