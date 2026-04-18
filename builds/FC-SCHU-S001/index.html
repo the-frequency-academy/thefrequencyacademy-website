@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FC-SCHU-S001 · A Cosmic Remembrance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Italiana&family=Syne+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#02020e;
+  --void-soft:#0a0a1f;
+  --nebula-deep:#1a0b2e;
+  --nebula-mid:#3d1b5c;
+  --plasma:#e85d75;
+  --aurora-cyan:#7fd8f5;
+  --aurora-gold:#f5c876;
+  --aurora-violet:#b28dff;
+  --starlight:#fef9e7;
+  --dust:#c9b8d4;
+  --dust-dim:#8a7a95;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--void);
+  color:var(--starlight);
+  font-family:'Cormorant Garamond', serif;
+  font-weight:300;
+  font-size:17px;
+  line-height:1.8;
+  overflow-x:hidden;
+  position:relative;
+  min-height:100vh;
+}
+
+.nebula{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 15%, rgba(178,141,255,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 25%, rgba(127,216,245,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 70% at 50% 75%, rgba(232,93,117,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 10% 90%, rgba(245,200,118,0.08) 0%, transparent 55%),
+    linear-gradient(180deg, var(--void) 0%, var(--nebula-deep) 30%, var(--void-soft) 60%, var(--void) 100%);
+  animation:nebula-drift 60s ease-in-out infinite alternate;
+}
+@keyframes nebula-drift{
+  0%{transform:scale(1) rotate(0deg);}
+  100%{transform:scale(1.05) rotate(2deg);}
+}
+
+.stars{position:fixed;inset:0;pointer-events:none;z-index:1;}
+.star{position:absolute;background:var(--starlight);border-radius:50%;animation:twinkle 4s infinite ease-in-out;}
+.star.glow{box-shadow:0 0 4px var(--starlight), 0 0 10px rgba(254,249,231,0.6);}
+.star.sirius{background:var(--aurora-cyan);box-shadow:0 0 6px var(--aurora-cyan), 0 0 18px rgba(127,216,245,0.8);animation-duration:3s;}
+.star.arcturus{background:var(--aurora-gold);box-shadow:0 0 6px var(--aurora-gold), 0 0 18px rgba(245,200,118,0.8);animation-duration:5s;}
+.star.plasma{background:var(--plasma);box-shadow:0 0 6px var(--plasma), 0 0 14px rgba(232,93,117,0.6);animation-duration:6s;}
+@keyframes twinkle{
+  0%,100%{opacity:0.3;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.4);}
+}
+
+.shooting-star{
+  position:fixed;width:2px;height:2px;background:var(--starlight);border-radius:50%;
+  z-index:2;pointer-events:none;opacity:0;
+  box-shadow:0 0 0 1px rgba(254,249,231,0.3),0 0 20px var(--starlight),-30px 0 10px rgba(254,249,231,0.2);
+}
+.shooting-star.active{animation:shoot 2.5s ease-out;}
+@keyframes shoot{
+  0%{opacity:0; transform:translate(-100px, -50px) rotate(-25deg);}
+  10%{opacity:1;}
+  100%{opacity:0; transform:translate(500px, 200px) rotate(-25deg);}
+}
+
+.container{position:relative;z-index:10;max-width:820px;margin:0 auto;padding:60px 28px 80px;}
+
+.mark{text-align:center;margin-bottom:50px;animation:fadeIn 1.8s ease-out;}
+.mark-label{font-family:'Syne Mono', monospace;font-size:0.72rem;letter-spacing:0.45em;color:var(--aurora-violet);text-transform:uppercase;margin-bottom:14px;opacity:0.85;}
+.mark-glyph{font-size:1.3rem;color:var(--aurora-cyan);margin:0 0 14px;filter:drop-shadow(0 0 8px rgba(127,216,245,0.5));}
+.mark-sub{font-family:'Syne Mono', monospace;font-size:0.62rem;letter-spacing:0.35em;color:var(--dust-dim);text-transform:uppercase;}
+
+.hero{text-align:center;padding:50px 0 60px;animation:fadeIn 2s ease-out 0.3s backwards;position:relative;}
+.hero-label{font-family:'Syne Mono', monospace;font-size:0.7rem;letter-spacing:0.4em;color:var(--aurora-gold);text-transform:uppercase;margin-bottom:24px;opacity:0.9;}
+.hero-title{
+  font-family:'Italiana', serif;font-weight:400;
+  font-size:clamp(2.4rem, 7vw, 4.2rem);line-height:1.05;margin-bottom:24px;
+  background:linear-gradient(100deg,var(--aurora-cyan) 0%,var(--starlight) 25%,var(--aurora-gold) 50%,var(--plasma) 75%,var(--aurora-violet) 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:0.01em;animation:shimmer 8s ease-in-out infinite;
+}
+@keyframes shimmer{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+.hero-subtitle{font-family:'Cormorant Garamond', serif;font-weight:300;font-style:italic;font-size:1.15rem;color:var(--dust);max-width:540px;margin:0 auto;line-height:1.6;}
+
+.photo-frame{
+  width:100%;margin:50px 0;position:relative;border-radius:2px;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(178,141,255,0.25),0 0 40px rgba(127,216,245,0.15),0 0 80px rgba(232,93,117,0.08),0 30px 80px rgba(0,0,0,0.7);
+}
+.photo-frame::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(45deg,rgba(127,216,245,0.12),transparent 30%,transparent 70%,rgba(245,200,118,0.12));
+  pointer-events:none;z-index:2;
+}
+.build-photo{
+  width:100%;height:auto;display:block;
+  transition:transform 0.8s ease;
+}
+.photo-frame:hover .build-photo{transform:scale(1.02);}
+.photo-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:30px 0 60px;
+}
+@media (max-width:580px){.photo-grid{grid-template-columns:1fr;gap:18px;}}
+.photo-small{margin:0;}
+.photo-placeholder{
+  width:100%;aspect-ratio:4/3;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(127,216,245,0.25), transparent 55%),
+    radial-gradient(circle at 75% 70%, rgba(245,200,118,0.22), transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(178,141,255,0.15), transparent 70%),
+    linear-gradient(135deg, var(--nebula-deep), var(--void));
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;
+}
+.photo-placeholder-icon{font-size:2.8rem;color:var(--aurora-cyan);filter:drop-shadow(0 0 15px rgba(127,216,245,0.6));animation:pulse 3s ease-in-out infinite;}
+@keyframes pulse{
+  0%,100%{opacity:0.6;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.1);}
+}
+.photo-placeholder-text{font-family:'Syne Mono', monospace;font-size:0.72rem;letter-spacing:0.4em;color:var(--dust);text-transform:uppercase;}
+
+.section{margin:75px 0;animation:fadeIn 1.8s ease-out 0.6s backwards;}
+.section-num{font-family:'Syne Mono', monospace;font-size:0.68rem;letter-spacing:0.4em;color:var(--aurora-violet);text-transform:uppercase;margin-bottom:12px;opacity:0.85;}
+.section-title{font-family:'Italiana', serif;font-weight:400;font-size:2.1rem;color:var(--starlight);margin-bottom:28px;letter-spacing:0.01em;line-height:1.1;}
+.section-title::after{content:'';display:block;width:60px;height:1px;background:linear-gradient(90deg, var(--aurora-cyan), var(--aurora-violet), transparent);margin-top:18px;}
+.section-body{color:var(--dust);font-size:1.05rem;line-height:1.85;}
+.section-body strong{color:var(--aurora-gold);font-weight:500;font-style:italic;}
+
+.intention{
+  background:linear-gradient(135deg, rgba(127,216,245,0.08), rgba(232,93,117,0.06) 50%, rgba(245,200,118,0.05)),rgba(10,10,31,0.5);
+  border:1px solid rgba(178,141,255,0.25);padding:48px 40px;margin:35px 0;position:relative;backdrop-filter:blur(10px);
+}
+.intention::before, .intention::after{content:'';position:absolute;width:20px;height:20px;border:1px solid var(--aurora-cyan);}
+.intention::before{top:-1px;left:-1px;border-right:none;border-bottom:none;}
+.intention::after{bottom:-1px;right:-1px;border-left:none;border-top:none;border-color:var(--aurora-gold);}
+.intention-glyph{text-align:center;font-size:1.2rem;color:var(--aurora-violet);margin-bottom:20px;letter-spacing:0.5em;opacity:0.7;}
+.intention-text{font-family:'Cormorant Garamond', serif;font-style:italic;font-weight:400;font-size:1.3rem;line-height:1.9;color:var(--starlight);text-align:center;letter-spacing:0.01em;}
+
+.stars-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:35px 0;}
+@media (max-width:580px){.stars-grid{grid-template-columns:1fr;}}
+.star-card{
+  background:rgba(10,10,31,0.6);border:1px solid rgba(178,141,255,0.2);
+  padding:38px 26px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(8px);
+  transition:all 0.5s ease;
+}
+.star-card:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,0,0,0.5);}
+.star-card.sirius{border-color:rgba(127,216,245,0.35);}
+.star-card.sirius:hover{box-shadow:0 15px 40px rgba(127,216,245,0.2);}
+.star-card.arcturus{border-color:rgba(245,200,118,0.35);}
+.star-card.arcturus:hover{box-shadow:0 15px 40px rgba(245,200,118,0.2);}
+
+.star-card::before{content:'';position:absolute;inset:-50%;background:radial-gradient(circle, var(--_glow,rgba(255,255,255,0.08)) 0%, transparent 60%);opacity:0.5;animation:orbit 20s linear infinite;}
+.star-card.sirius::before{--_glow:rgba(127,216,245,0.25);}
+.star-card.arcturus::before{--_glow:rgba(245,200,118,0.25);}
+@keyframes orbit{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+.star-card > *{position:relative; z-index:2;}
+
+.star-card-label{font-family:'Syne Mono', monospace;font-size:0.62rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--dust);margin-bottom:12px;opacity:0.85;}
+.star-card-name{font-family:'Italiana', serif;font-size:1.8rem;color:var(--starlight);margin-bottom:14px;}
+.star-card-hz{font-family:'Italiana', serif;font-size:2.8rem;font-weight:400;margin-bottom:14px;line-height:1;}
+.sirius .star-card-hz{color:var(--aurora-cyan);text-shadow:0 0 20px rgba(127,216,245,0.4);}
+.arcturus .star-card-hz{color:var(--aurora-gold);text-shadow:0 0 20px rgba(245,200,118,0.4);}
+.star-card-desc{font-family:'Cormorant Garamond', serif;font-style:italic;font-size:1rem;color:var(--dust);line-height:1.7;}
+
+.schumann-feature{
+  background:radial-gradient(ellipse at center, rgba(127,216,245,0.12), transparent 70%),rgba(10,10,31,0.5);
+  border:1px solid rgba(127,216,245,0.3);padding:55px 40px;margin:35px 0;text-align:center;
+  position:relative;overflow:hidden;backdrop-filter:blur(8px);
+}
+.schumann-feature::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 30%, rgba(127,216,245,0.08), transparent 50%),radial-gradient(circle at 70% 70%, rgba(245,200,118,0.06), transparent 50%);
+  animation:pulse-bg 6s ease-in-out infinite;
+}
+@keyframes pulse-bg{0%,100%{opacity:0.5;}50%{opacity:1;}}
+.schumann-feature > *{position:relative;z-index:2;}
+.schumann-hz{
+  font-family:'Italiana', serif;font-size:4.5rem;font-weight:400;color:var(--aurora-cyan);
+  line-height:1;margin-bottom:10px;letter-spacing:0.01em;
+  text-shadow:0 0 30px rgba(127,216,245,0.5),0 0 60px rgba(127,216,245,0.2);
+}
+.schumann-hz-label{font-family:'Syne Mono', monospace;font-size:0.68rem;letter-spacing:0.45em;color:var(--dust);text-transform:uppercase;margin-bottom:24px;}
+.schumann-desc{font-family:'Cormorant Garamond', serif;font-size:1.1rem;color:var(--starlight);line-height:1.8;max-width:560px;margin:0 auto;font-style:italic;font-weight:300;}
+
+.materials{background:rgba(10,10,31,0.4);border:1px solid rgba(178,141,255,0.15);padding:38px 34px;margin:30px 0;backdrop-filter:blur(6px);}
+.materials-cat{font-family:'Syne Mono', monospace;font-size:0.62rem;letter-spacing:0.4em;color:var(--aurora-gold);text-transform:uppercase;margin-top:28px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(245,200,118,0.2);}
+.materials-cat:first-child{margin-top:0;}
+.materials-list{list-style:none;padding:0;}
+.materials-list li{padding:10px 0 10px 24px;color:var(--starlight);font-size:1rem;position:relative;border-bottom:1px dashed rgba(178,141,255,0.1);line-height:1.7;}
+.materials-list li:last-child{border-bottom:none;}
+.materials-list li::before{content:'✦';position:absolute;left:0;color:var(--aurora-violet);font-size:0.85rem;top:12px;}
+.materials-list li strong{color:var(--aurora-cyan);font-weight:500;font-style:normal;}
+
+.steps{list-style:none;padding:0;counter-reset:step;margin-top:20px;}
+.steps li{counter-increment:step;display:flex;gap:24px;padding:26px 0;border-bottom:1px solid rgba(178,141,255,0.12);}
+.steps li:last-child{border-bottom:none;}
+.steps li::before{
+  content:counter(step,decimal-leading-zero);
+  font-family:'Italiana', serif;font-size:2rem;
+  background:linear-gradient(135deg, var(--aurora-cyan), var(--aurora-violet));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  flex-shrink:0;min-width:50px;line-height:1;font-weight:400;
+}
+.step-content strong{display:block;font-family:'Italiana', serif;font-size:1.25rem;color:var(--starlight);margin-bottom:8px;letter-spacing:0.01em;font-weight:400;}
+.step-content p{font-size:1rem;color:var(--dust);line-height:1.75;font-style:italic;font-weight:300;}
+
+.build-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(178,141,255,0.2);margin:45px 0;}
+@media (max-width:500px){.build-meta{grid-template-columns:1fr;}}
+.meta-cell{background:var(--void);padding:24px 22px;}
+.meta-label{font-family:'Syne Mono', monospace;font-size:0.6rem;letter-spacing:0.4em;color:var(--aurora-violet);text-transform:uppercase;margin-bottom:10px;}
+.meta-value{font-family:'Italiana', serif;font-size:1.1rem;color:var(--starlight);}
+
+.cta-block{text-align:center;padding:50px 0;border-top:1px solid rgba(178,141,255,0.2);border-bottom:1px solid rgba(178,141,255,0.2);margin:60px 0;position:relative;}
+.cta-block::before{content:'';position:absolute;left:50%;top:-5px;width:10px;height:10px;transform:translateX(-50%) rotate(45deg);background:var(--void);border-top:1px solid var(--aurora-cyan);border-left:1px solid var(--aurora-cyan);}
+.cta-label{font-family:'Syne Mono', monospace;font-size:0.7rem;letter-spacing:0.45em;color:var(--aurora-gold);text-transform:uppercase;margin-bottom:24px;}
+.cta-buttons{display:flex;flex-direction:column;gap:12px;max-width:340px;margin:0 auto;}
+.btn{display:block;padding:16px 28px;font-family:'Syne Mono', monospace;font-size:0.75rem;letter-spacing:0.35em;text-transform:uppercase;text-decoration:none;text-align:center;transition:all 0.4s ease;position:relative;overflow:hidden;}
+.btn-primary{background:linear-gradient(135deg, var(--aurora-cyan), var(--aurora-violet));color:var(--void);font-weight:600;}
+.btn-primary:hover{box-shadow:0 0 30px rgba(127,216,245,0.5);transform:translateY(-2px);}
+.btn-outline{border:1px solid rgba(178,141,255,0.4);color:var(--starlight);background:transparent;}
+.btn-outline:hover{border-color:var(--aurora-cyan);background:rgba(127,216,245,0.08);box-shadow:0 0 20px rgba(127,216,245,0.2);}
+
+.footer{text-align:center;padding:50px 0 0;border-top:1px solid rgba(178,141,255,0.12);}
+.footer-glyph{font-size:1rem;letter-spacing:0.8em;color:var(--aurora-violet);margin-bottom:18px;opacity:0.6;}
+.footer-tagline{font-family:'Syne Mono', monospace;font-size:0.7rem;letter-spacing:0.4em;color:var(--aurora-gold);text-transform:uppercase;margin-bottom:20px;}
+.footer-text{font-family:'Cormorant Garamond', serif;font-style:italic;font-size:0.95rem;color:var(--dust);line-height:1.8;}
+.footer-signature{font-family:'Italiana', serif;color:var(--starlight);margin-top:18px;font-size:1rem;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+::selection{background:rgba(232,93,117,0.4);color:var(--starlight);}
+</style>
+</head>
+<body>
+
+<div class="nebula"></div>
+<div class="stars" id="stars"></div>
+<div class="shooting-star" id="shootingStar"></div>
+
+<div class="container">
+
+  <div class="mark">
+    <div class="mark-label">A Frequency Charged™ Vessel</div>
+    <div class="mark-glyph">✦ ⋆ ✧ ⋆ ✦</div>
+    <div class="mark-sub">Built in ceremony · One of one</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-label">Build FC-SCHU-S001</div>
+    <h1 class="hero-title">A Cosmic<br>Remembrance</h1>
+    <p class="hero-subtitle">A Schumann resonance vessel tuned between stars — a homing signal for one who is remembering which suns they belong to</p>
+  </div>
+
+  <div class="photo-frame">
+    <img src="photo-hero.jpg" alt="FC-SCHU-S001 · A Cosmic Remembrance · top-down view showing the full crystal array, Light Language inscribed Schumann core, and signature 3mL vial" class="build-photo">
+  </div>
+
+  <div class="photo-grid">
+    <div class="photo-frame photo-small">
+      <img src="photo-detail.jpg" alt="Detail view of the Light Language inscribed Schumann core with the signature 3mL vial, labradorite center stone, and the full metal sphere array" class="build-photo">
+    </div>
+    <div class="photo-frame photo-small">
+      <img src="photo-profile.jpg" alt="Profile view of the vessel showing its disc form, crystal placements, and the crushed crystal foundation matrix" class="build-photo">
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-num">I · The Intention</div>
+    <h2 class="section-title">What This Vessel Carries</h2>
+    <div class="section-body">
+      <p>This device was built in ceremony for one who carries the signature of the stars. The intention held throughout every layer — every winding of the tensor ring, every crystal placement, every pour of the orgone matrix — was <strong>the activation of cosmic memory</strong>: the remembrance of lineage that stretches far beyond this Earth incarnation.</p>
+    </div>
+
+    <div class="intention">
+      <div class="intention-glyph">✦ ⋆ ✦</div>
+      <div class="intention-text">
+        "You are remembering.<br>
+        The stars have not forgotten you —<br>
+        and now you are called<br>
+        to not forget them either.<br><br>
+        Sirius opens the gate.<br>
+        Arcturus holds the frequency.<br>
+        You walk between worlds<br>
+        because you were made to."
+      </div>
+    </div>
+
+    <p style="color:var(--dust-dim);line-height:1.9;font-size:0.92rem;font-style:italic;text-align:center;font-family:'Syne Mono', monospace;letter-spacing:0.05em;">
+      Spoken aloud by the builder during activation ceremony
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-num">II · Celestial Alignments</div>
+    <h2 class="section-title">The Stars Woven<br>Into This Vessel</h2>
+    <div class="section-body">
+      <p>Two star systems anchor this device. Each was held in focus during key stages of construction — their frequencies welcomed, their intelligences invoked, their remembrance embedded into the architecture of the build itself.</p>
+    </div>
+
+    <div class="stars-grid">
+      <div class="star-card sirius">
+        <div class="star-card-label">The Gateway</div>
+        <div class="star-card-name">Sirius</div>
+        <div class="star-card-hz">50 Hz</div>
+        <div class="star-card-desc">
+          Carrier of sacred geometry.<br>
+          Blue-white initiation.<br>
+          The opening of memory<br>
+          long held at the horizon.
+        </div>
+      </div>
+
+      <div class="star-card arcturus">
+        <div class="star-card-label">The Holding</div>
+        <div class="star-card-name">Arcturus</div>
+        <div class="star-card-hz">5.5 Hz</div>
+        <div class="star-card-desc">
+          The emotional healer.<br>
+          Golden-amber transmission.<br>
+          Biofield repair,<br>
+          the return to coherence.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-num">III · The Core Frequency</div>
+    <h2 class="section-title">Earth's Heartbeat</h2>
+
+    <div class="schumann-feature">
+      <div class="schumann-hz">7.83 Hz</div>
+      <div class="schumann-hz-label">Schumann Resonance</div>
+      <p class="schumann-desc">
+        The fundamental electromagnetic frequency of the Earth itself — the planetary heartbeat. This device broadcasts it continuously as a stable, coherent field, inviting the nervous system into parasympathetic rest. Every cosmic alignment built into this vessel is anchored through this signal.
+      </p>
+    </div>
+
+    <p style="color:var(--dust);line-height:1.9;font-size:1.05rem;font-style:italic;text-align:center;font-family:'Cormorant Garamond', serif;max-width:520px;margin:25px auto 0;">
+      Earth is the vessel.<br>
+      The stars are the memory.<br>
+      This device holds both.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-num">IV · Inside The Vessel</div>
+    <h2 class="section-title">Materials & Sacred Components</h2>
+
+    <div class="materials">
+
+      <div class="materials-cat">Core Technology</div>
+      <ul class="materials-list">
+        <li><strong>Schumann Resonance Generator</strong> — continuous 7.83Hz electromagnetic broadcast</li>
+        <li><strong>Plug-in / stationary form</strong> — designed to anchor a space as a dedicated field</li>
+      </ul>
+
+      <div class="materials-cat">The Crystal Array — The Four Directions + The Center</div>
+      <ul class="materials-list">
+        <li><strong>Center · Ether / Spirit · Labradorite</strong> — the stone of remembrance · star-system gateway · the quintessence held at the heart of the vessel where all elements meet</li>
+        <li><strong>12:00 · North · Earth · Sunstone</strong> — the element of body and bone honored at the crown of the device · solar joy made manifest · grounded radiance</li>
+        <li><strong>3:00 · East · Air · A+ Clear Quartz with heavy Red Garnet</strong> — the element of breath and mind · master amplifier anchored to root-heart passion · the fire of spirit rising through clear thought</li>
+        <li><strong>6:00 · South · Fire · Moonstone</strong> — the element of transformation held at the base · lunar reflection meeting solar transmutation · the paradox that teaches</li>
+        <li><strong>9:00 · West · Water · Carnelian</strong> — the element of feeling and flow · sacral creative fire moving as water · emotion as sacred current</li>
+      </ul>
+
+      <div class="materials-cat">Foundation Matrix — The Base Layer</div>
+      <ul class="materials-list">
+        <li><strong>Crushed Shungite</strong> — EMF purification · fullerene carbon · the alchemical ground</li>
+        <li><strong>Crushed Selenite</strong> — angelic clearing · high-frequency light carrier · the luminous layer</li>
+        <li><strong>Crushed Black Tourmaline</strong> — root protection · grounding · transmutes dense energies</li>
+        <li><strong>Crushed Jade</strong> — heart stone · harmony · ancestral wisdom woven through the foundation</li>
+      </ul>
+
+      <div class="materials-cat">Ceremonial Ashes — The Sacred Breath</div>
+      <ul class="materials-list">
+        <li><strong>Palo Santo Ash</strong> — the holy wood · ancestral cleansing · the breath of the sacred tree</li>
+        <li><strong>Tobacco (Mapacho) Ash</strong> — the master plant · prayer carrier · the offering honored across the Americas</li>
+        <li><strong>White Sage Ash</strong> — the purifier · clears heavy energy · the desert's gift</li>
+      </ul>
+
+      <div class="materials-cat">Sacred Resins — The Living Language</div>
+      <ul class="materials-list">
+        <li><strong>Frankincense</strong> — the temple resin · elevates prayer · the breath of angels</li>
+        <li><strong>Myrrh</strong> — the mother resin · deep grief transmutation · sacred preservation</li>
+        <li><strong>Copal</strong> — the Mesoamerican blood of trees · communion with ancestors</li>
+        <li><strong>Dragon's Blood</strong> — protection · potency · the sealing of the work</li>
+      </ul>
+
+      <div class="materials-cat">Sacred Herbs — The Green Allies</div>
+      <ul class="materials-list">
+        <li><strong>Holy Basil (Tulsi)</strong> — the sacred queen · heart opener · bridge between worlds</li>
+        <li><strong>White Sage</strong> — purification and clearing</li>
+        <li><strong>Palo Santo</strong> — the holy wood in herb form woven into the matrix</li>
+      </ul>
+
+      <div class="materials-cat">Metal Shavings — Woven Through The Matrix</div>
+      <ul class="materials-list">
+        <li><strong>Copper</strong> — Venus · conductivity · heart</li>
+        <li><strong>Steel</strong> — Mars · structure · warrior's spine · the backbone of the matrix</li>
+        <li><strong>Brass</strong> — solar alloy · grounding the electrical field · the voice of the bell</li>
+      </ul>
+
+      <div class="materials-cat">Metal Beads — Integrated Across The Top Surface</div>
+      <ul class="materials-list">
+        <li><strong>Zinc Beads</strong> — bright silver-metallic spheres · immune strength · cellular regeneration · the metal of renewal scattered across the field</li>
+      </ul>
+
+      <div class="materials-cat">Black Pearls — The Oceanic Mystery</div>
+      <ul class="materials-list">
+        <li><strong>Multiple Black Pearls</strong> placed across the top surface · iridescent peacock luster · wisdom born of pressure · the shadow-moon stones completing the sacred architecture</li>
+      </ul>
+
+      <div class="materials-cat">Silver Leaf Inlay — The Luminous Thread</div>
+      <ul class="materials-list">
+        <li><strong>Hand-applied Silver Leaf</strong> — woven across crystals and throughout the matrix · the reflective metal of the moon caught in the vessel's skin · catches every shift of light like starfire on water</li>
+      </ul>
+
+      <div class="materials-cat">The Signature Vial — A Frequency Academy Sigil</div>
+      <ul class="materials-list">
+        <li><strong>3mL Glass Vial inscribed with Light Language</strong> — our signature ceremonial element · glyphs drawn by hand carrying non-linear transmission</li>
+        <li><strong>Plasma GANS blend</strong> sealed inside the vial — CO₂ · CuO · ZnO in liquid suspension</li>
+        <li><strong>Colloidal Metals</strong> — Copper · Silver · Gold held in the same vial</li>
+        <li><strong>Ormus</strong> — monoatomic gold · the alchemist's white powder · the high-spin carrier of consciousness</li>
+      </ul>
+
+      <div class="materials-cat">The Inscribed Core — Light Language</div>
+      <ul class="materials-list">
+        <li><strong>The Schumann generator itself</strong> is inscribed with Light Language codes — the device is not merely housed in ceremony, it <em>is</em> ceremony · every pulse of 7.83Hz carries these glyphs into the field</li>
+      </ul>
+
+      <div class="materials-cat">A Sacred Moment — Held In The Field</div>
+      <ul class="materials-list">
+        <li><strong>The Frequency of an Offering from a Bunny</strong> — a specific ceremonial encounter during the build · the field was held open to receive what the small ones bring · gentleness, presence, and wild grace encoded into the vessel</li>
+      </ul>
+
+      <div class="materials-cat">Tensor Ring</div>
+      <ul class="materials-list">
+        <li><strong>528MHz Cosmic Connector</strong> — the frequency of DNA repair and unconditional love · wound clockwise with positive polarity · intention sealed during construction</li>
+      </ul>
+
+      <div class="materials-cat">Sacred Geometry — The Architecture</div>
+      <ul class="materials-list">
+        <li><strong>Merkaba / Star Tetrahedron</strong> — the interdimensional vehicle · lightbody activation · the geometry of cosmic travel</li>
+        <li><strong>Torus</strong> — the self-sustaining field · the shape of life itself · continuous circulation of the vessel's energy</li>
+      </ul>
+
+      <div class="materials-cat">Colloidal Metals — Liquid Alchemy</div>
+      <ul class="materials-list">
+        <li><strong>Colloidal Copper (Cu)</strong> — Venus metal · conductivity · heart-field resonance</li>
+        <li><strong>Colloidal Silver (Ag)</strong> — lunar metal · reflective clarity · intuition</li>
+        <li><strong>Colloidal Gold (Au)</strong> — solar metal · crown activation · cosmic conductivity</li>
+      </ul>
+
+      <div class="materials-cat">Plasma GANS Layer</div>
+      <ul class="materials-list">
+        <li><strong>CO₂ GANS</strong> — emotional clearing · ancestral grounding</li>
+        <li><strong>CuO GANS</strong> — electromagnetic transmission amplifier</li>
+        <li><strong>ZnO GANS</strong> — nervous system carrier · intention vehicle</li>
+      </ul>
+
+      <div class="materials-cat">Orgone Matrix — The Frequency Charged™ Methodology</div>
+      <ul class="materials-list">
+        <li><strong>Multi-layer orgone architecture</strong> — alternating organic and inorganic strata per the Reich/Welz method, built under the proprietary <strong>Frequency Charged™ Methodology</strong> developed at The Frequency Academy</li>
+        <li><strong>Resin-bound metal shavings</strong> — Copper, Steel, and Brass woven through the matrix as structural conductors</li>
+        <li><strong>Every single layer is charged</strong> with the same signature infusion — a living formula carried through the entire vessel:</li>
+        <li style="padding-left:44px;">✦ Plasma GANS (CO₂ · CuO · ZnO)</li>
+        <li style="padding-left:44px;">✦ Colloidal Gold · Colloidal Copper · Colloidal Silver</li>
+        <li style="padding-left:44px;">✦ Zinc</li>
+        <li style="padding-left:44px;">✦ Ormus (monoatomic gold)</li>
+        <li style="padding-left:44px;">✦ Crushed A-grade Clear Quartz</li>
+        <li><strong>This is what makes it Frequency Charged™</strong> — not just orgonite, but a coherent resonant field where every cross-section of the vessel carries the same alchemical signature from foundation to top surface</li>
+      </ul>
+
+    </div>
+
+    <p style="color:var(--dust-dim);line-height:1.9;font-size:0.95rem;font-style:italic;text-align:center;margin-top:25px;font-family:'Cormorant Garamond', serif;">
+      Additional proprietary materials, alchemical elements, and ceremonial components<br>
+      have been integrated into this build as part of the Frequency Charged™ method.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-num">V · Living With It</div>
+    <h2 class="section-title">How To Work<br>With This Vessel</h2>
+
+    <ol class="steps">
+      <li>
+        <div class="step-content">
+          <strong>Plug in. Let it live.</strong>
+          <p>This device is designed to run continuously. Plug it in where you spend the most time — bedroom, altar, meditation space. It creates a coherent field that radiates outward.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <strong>Place with intention.</strong>
+          <p>Where you place it matters. Choose a spot that feels like a center — an altar, a nightstand, a space you return to. The field extends several feet in every direction.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <strong>Greet it daily.</strong>
+          <p>This is not a gadget. Touch the vessel. Speak to it. Thank it. Ceremonial relationship deepens the field over time. It remembers you.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <strong>Cleanse each full moon.</strong>
+          <p>Unplug. Place under moonlight for a few hours. Set a fresh intention when you plug it back in. This keeps the field clean, bright, and responsive.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <strong>Notice what returns.</strong>
+          <p>Cosmic remembrance unfolds over weeks and months. Journal your dreams. Track the moments memory surfaces. Let yourself be found by what was always yours.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <div class="section-num">VI · Provenance</div>
+    <h2 class="section-title">Build Record</h2>
+
+    <div class="build-meta">
+      <div class="meta-cell">
+        <div class="meta-label">Build ID</div>
+        <div class="meta-value">FC-SCHU-S001</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Built For</div>
+        <div class="meta-value">S</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Vessel Type</div>
+        <div class="meta-value">Schumann 7.83Hz</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Intention</div>
+        <div class="meta-value">Cosmic Remembrance</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Star Alignment</div>
+        <div class="meta-value">Sirius · Arcturus</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Build Date</div>
+        <div class="meta-value">April 2026</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Builder</div>
+        <div class="meta-value">BabaKeegs</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Method</div>
+        <div class="meta-value">Frequency Charged™</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-block">
+    <div class="cta-label">Continue the Remembrance</div>
+    <div class="cta-buttons">
+      <a href="https://www.skool.com/the-frequency-academy-3454/about" class="btn btn-primary">Enter The Academy</a>
+      <a href="https://thefrequencyacademy.net" class="btn btn-outline">TheFrequencyAcademy.net</a>
+      <a href="https://www.etsy.com/shop/TheFrequencyAcademy" class="btn btn-outline">Shop Vessels</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-glyph">✦ ⋆ ✧ ⋆ ✦</div>
+    <div class="footer-tagline">Sovereignty · Reciprocity · Unity · Love</div>
+    <div class="footer-text">
+      Built in ceremony. Charged with intention.<br>
+      Offered in service of remembrance.
+    </div>
+    <div class="footer-signature">— BabaKeegs</div>
+  </div>
+
+</div>
+
+<script>
+const starsContainer = document.getElementById('stars');
+const numStars = 160;
+for(let i=0; i<numStars; i++){
+  const star = document.createElement('div');
+  star.className = 'star';
+  const size = Math.random() * 2.2 + 0.4;
+  const roll = Math.random();
+  if(roll < 0.04) star.classList.add('sirius');
+  else if(roll < 0.08) star.classList.add('arcturus');
+  else if(roll < 0.10) star.classList.add('plasma');
+  else if(roll < 0.22) star.classList.add('glow');
+  star.style.width = size + 'px';
+  star.style.height = size + 'px';
+  star.style.left = Math.random() * 100 + '%';
+  star.style.top = Math.random() * 100 + '%';
+  star.style.animationDelay = Math.random() * 4 + 's';
+  starsContainer.appendChild(star);
+}
+
+const shootingStar = document.getElementById('shootingStar');
+function triggerShootingStar(){
+  shootingStar.style.left = Math.random() * 60 + '%';
+  shootingStar.style.top = Math.random() * 40 + '%';
+  shootingStar.classList.remove('active');
+  void shootingStar.offsetWidth;
+  shootingStar.classList.add('active');
+}
+setInterval(triggerShootingStar, 8000 + Math.random() * 6000);
+setTimeout(triggerShootingStar, 3000);
+</script>
+
+</body>
+</html>
