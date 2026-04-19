@@ -227,6 +227,50 @@ body{
 .meta-label{font-family:'Syne Mono', monospace;font-size:0.6rem;letter-spacing:0.4em;color:var(--aurora-violet);text-transform:uppercase;margin-bottom:10px;}
 .meta-value{font-family:'Italiana', serif;font-size:1.1rem;color:var(--starlight);}
 
+.reciprocity-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;
+  margin:40px 0 20px;max-width:540px;margin-left:auto;margin-right:auto;
+}
+@media (max-width:520px){.reciprocity-grid{grid-template-columns:1fr;gap:14px;}}
+.reciprocity-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:24px 20px;text-decoration:none;
+  background:rgba(10,10,31,0.5);
+  border:1px solid rgba(178,141,255,0.3);
+  backdrop-filter:blur(8px);
+  transition:all 0.5s ease;
+  position:relative;overflow:hidden;
+}
+.reciprocity-btn::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  background:linear-gradient(135deg, rgba(127,216,245,0.08), rgba(245,200,118,0.06));
+  transition:opacity 0.5s ease;
+}
+.reciprocity-btn:hover{
+  border-color:rgba(127,216,245,0.5);
+  transform:translateY(-2px);
+  box-shadow:0 15px 40px rgba(127,216,245,0.15);
+}
+.reciprocity-btn:hover::before{opacity:1;}
+.reciprocity-btn > *{position:relative;z-index:2;}
+.reciprocity-btn.venmo{border-color:rgba(127,216,245,0.35);}
+.reciprocity-btn.venmo:hover{border-color:var(--aurora-cyan);}
+.reciprocity-btn.paypal{border-color:rgba(245,200,118,0.35);}
+.reciprocity-btn.paypal:hover{border-color:var(--aurora-gold);}
+.reciprocity-label{
+  font-family:'Syne Mono', monospace;
+  font-size:0.62rem;letter-spacing:0.45em;
+  text-transform:uppercase;color:var(--dust);
+  opacity:0.9;
+}
+.reciprocity-btn.venmo .reciprocity-label{color:var(--aurora-cyan);}
+.reciprocity-btn.paypal .reciprocity-label{color:var(--aurora-gold);}
+.reciprocity-handle{
+  font-family:'Italiana', serif;
+  font-size:1.3rem;color:var(--starlight);
+  letter-spacing:0.01em;
+}
+
 .cta-block{text-align:center;padding:50px 0;border-top:1px solid rgba(178,141,255,0.2);border-bottom:1px solid rgba(178,141,255,0.2);margin:60px 0;position:relative;}
 .cta-block::before{content:'';position:absolute;left:50%;top:-5px;width:10px;height:10px;transform:translateX(-50%) rotate(45deg);background:var(--void);border-top:1px solid var(--aurora-cyan);border-left:1px solid var(--aurora-cyan);}
 .cta-label{font-family:'Syne Mono', monospace;font-size:0.7rem;letter-spacing:0.45em;color:var(--aurora-gold);text-transform:uppercase;margin-bottom:24px;}
@@ -572,6 +616,30 @@ body{
         <div class="meta-value">Frequency Charged™</div>
       </div>
     </div>
+  </div>
+
+  <div class="section">
+    <div class="section-num">VII · Reciprocity</div>
+    <h2 class="section-title">Support the Work</h2>
+    <div class="section-body">
+      <p>These vessels are built in ceremony — not on an assembly line. Every layer takes time, materials, presence, and prayer. If this work has moved you, reciprocity is welcomed in whatever form feels right. A tip, a share, a return of energy to the field.</p>
+    </div>
+
+    <div class="reciprocity-grid">
+      <a href="https://venmo.com/u/BabaKeegs" target="_blank" rel="noopener" class="reciprocity-btn venmo">
+        <span class="reciprocity-label">Venmo</span>
+        <span class="reciprocity-handle">@BabaKeegs</span>
+      </a>
+      <a href="https://paypal.me/keeganbrady" target="_blank" rel="noopener" class="reciprocity-btn paypal">
+        <span class="reciprocity-label">PayPal</span>
+        <span class="reciprocity-handle">@keeganbrady</span>
+      </a>
+    </div>
+
+    <p style="color:var(--dust-dim);line-height:1.9;font-size:0.9rem;font-style:italic;text-align:center;margin-top:30px;font-family:'Cormorant Garamond', serif;">
+      Or share the work with someone who needs to find it.<br>
+      That too is reciprocity.
+    </p>
   </div>
 
   <div class="cta-block">
