@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote Cards · The Frequency Academy</title>
+<meta name="description" content="Quote cards from The Frequency Academy — wisdom drops, teachings, and sovereign declarations.">
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0D1240;
+    color: #e8dcc4;
+    font-family: 'Raleway', sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px;
+    background-image: radial-gradient(circle at 50% 0%, rgba(201, 168, 76, 0.12) 0%, transparent 55%);
+  }
+  header { text-align: center; margin-bottom: 40px; }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    color: #c9a84c;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    color: rgba(232, 220, 196, 0.6);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-family: monospace;
+  }
+  .grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .card-tile {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    background: #0a0a18;
+  }
+  .card-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  footer {
+    margin-top: 40px;
+    text-align: center;
+    color: rgba(232, 220, 196, 0.4);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    font-family: monospace;
+  }
+  footer a { color: #c9a84c; text-decoration: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>✶ Quote Cards</h1>
+  <div class="subtitle">The Frequency Academy</div>
+</header>
+<div class="grid" id="grid"></div>
+<footer>
+  <a href="https://thefrequencyacademy.net">← thefrequencyacademy.net</a>
+</footer>
+<script>
+  const cards = ["tfa-card-ancestral-knowing.jpg", "tfa-card-avoided-voice.jpg", "tfa-card-body-temple.jpg", "tfa-card-breakthrough-unfolding.jpg", "tfa-card-ceremony-design.jpg", "tfa-card-ceremony-tears.jpg", "tfa-card-curriculum-stats.jpg", "tfa-card-cymatics-cascade.jpg", "tfa-card-dhijaz-scale.jpg", "tfa-card-dragon-incantation.jpg", "tfa-card-echoing-phrase.jpg", "tfa-card-favorite-thing.jpg", "tfa-card-first-100.jpg", "tfa-card-first-ceremony.jpg", "tfa-card-four-elements.jpg", "tfa-card-frequency-chapter.jpg", "tfa-card-incantation-sequence.jpg", "tfa-card-integration-longest.jpg", "tfa-card-integration-vs-info.jpg", "tfa-card-intensity-frequency.jpg", "tfa-card-intuition-sense.jpg", "tfa-card-letter-to-23.jpg", "tfa-card-lightwork-truth.jpg", "tfa-card-module-foundation.jpg", "tfa-card-mystery-school.jpg", "tfa-card-nervous-system.jpg", "tfa-card-no-overnight.jpg", "tfa-card-not-guru.jpg", "tfa-card-numerology-read.jpg", "tfa-card-one-word-frequency.jpg", "tfa-card-original-breath.jpg", "tfa-card-parking-lot-temple.jpg", "tfa-card-ritual-physics.jpg", "tfa-card-seven-years-ago.jpg", "tfa-card-silence-opens.jpg", "tfa-card-silence-or-sound.jpg", "tfa-card-silence-quote.jpg", "tfa-card-sound-vs-frequency.jpg", "tfa-card-sovereign-path.jpg", "tfa-card-spirit-breath.jpg", "tfa-card-teacher-silence.jpg", "tfa-card-tensor-polarity.jpg", "tfa-card-threshold.jpg", "tfa-card-throat-gate.jpg", "tfa-card-unlearning.jpg", "tfa-card-vowel-gates.jpg", "tfa-card-where-you-hum.jpg", "tfa-card-which-element.jpg"];
+  const grid = document.getElementById('grid');
+  cards.forEach(f => {
+    const tile = document.createElement('div');
+    tile.className = 'card-tile';
+    tile.innerHTML = `<img src="./${f}" alt="${f}" loading="lazy">`;
+    grid.appendChild(tile);
+  });
+</script>
+</body>
+</html>
