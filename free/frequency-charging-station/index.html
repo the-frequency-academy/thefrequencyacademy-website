@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FCS · Frequency Charging Station — Workshop Companion · The Frequency Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* CUSTOM WORKSHOP PALETTE — distinct from any module */
+  --bg-deep:      #0a0e2a;   /* deep aurora indigo */
+  --bg-mid:       #121838;   /* mid indigo */
+  --bg-light:     #f4f1e6;   /* aurora cream for content sections */
+  --bg-light-2:   #ebe6d4;   /* slightly darker cream divider */
+
+  --gaia:         #d4a04e;   /* warm amber-gold (Gaia / 7.83 / Earth pulse) */
+  --gaia-soft:    #e8b96c;
+  --gaia-deep:    #a87a30;
+
+  --aurora:       #5fd4a0;   /* aurora green-cyan (Aurora / 528 / healing) */
+  --aurora-soft:  #82e6b8;
+  --aurora-deep:  #3a9a72;
+
+  --text-cream:   #f0ede0;
+  --text-dark:    #1a1d3a;
+  --text-muted-d: rgba(240,237,224,0.65);
+  --text-muted-l: rgba(26,29,58,0.65);
+  --line-d:       rgba(212,160,78,0.18);
+  --line-l:       rgba(26,29,58,0.12);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-cream);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* ══════════════════════════════════════════════
+   HERO SECTION — aurora sunburst
+   ══════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg-deep);
+  text-align: center;
+  padding: 80px 24px;
+}
+
+/* aurora glow rays — dual color sunburst */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(212,160,78,0.04) 5deg,
+      transparent 10deg,
+      rgba(95,212,160,0.04) 15deg,
+      transparent 20deg
+    );
+  z-index: 0;
+}
+
+/* aurora glow at top */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 80%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(95,212,160,0.12) 0%,
+    rgba(212,160,78,0.06) 35%,
+    transparent 70%
+  );
+  z-index: 0;
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+#auroraCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.6;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 5;
+  max-width: 900px;
+}
+
+.lesson-tag {
+  display: inline-block;
+  border: 1px solid var(--gaia);
+  padding: 12px 32px;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 5px;
+  color: var(--gaia);
+  text-transform: uppercase;
+  margin-bottom: 50px;
+  background: rgba(10,14,42,0.4);
+  backdrop-filter: blur(2px);
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 700;
+  color: var(--text-cream);
+  line-height: 1.05;
+  letter-spacing: 1px;
+  text-shadow: 0 0 60px rgba(95,212,160,0.2);
+  margin-bottom: 12px;
+}
+
+.hero-title .amp {
+  color: var(--aurora);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.hero-title .gaia-word { color: var(--gaia-soft); }
+.hero-title .aurora-word { color: var(--aurora-soft); }
+
+.hero-sub {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(16px, 1.6vw, 19px);
+  color: var(--text-muted-d);
+  max-width: 620px;
+  margin: 30px auto 0;
+  line-height: 1.7;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line-d);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gaia);
+  text-transform: uppercase;
+}
+
+.hero-meta span { opacity: 0.85; }
+.hero-meta .dot { color: var(--aurora); opacity: 0.6; }
+
+/* gold accent line at bottom of hero */
+.hero-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gaia) 25%,
+    var(--aurora) 50%,
+    var(--gaia) 75%,
+    transparent 100%
+  );
+  z-index: 5;
+}
+
+/* ══════════════════════════════════════════════
+   CONTENT SECTIONS — light cream background
+   ══════════════════════════════════════════════ */
+.section-light {
+  background: var(--bg-light);
+  color: var(--text-dark);
+  padding: 100px 24px;
+}
+
+.section-dark {
+  background: var(--bg-deep);
+  color: var(--text-cream);
+  padding: 100px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-mid {
+  background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-light-2) 100%);
+  color: var(--text-dark);
+  padding: 100px 24px;
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 5px;
+  color: var(--gaia-deep);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.section-dark .eyebrow {
+  color: var(--gaia);
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.15;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+.section-dark .section-title {
+  color: var(--text-cream);
+}
+
+.section-title .accent-gaia { color: var(--gaia-deep); font-style: italic; font-weight: 500; }
+.section-title .accent-aurora { color: var(--aurora-deep); font-style: italic; font-weight: 500; }
+.section-dark .section-title .accent-gaia { color: var(--gaia-soft); }
+.section-dark .section-title .accent-aurora { color: var(--aurora-soft); }
+
+.title-rule {
+  width: 60px;
+  height: 2px;
+  background: var(--gaia);
+  margin-bottom: 36px;
+}
+
+.section-dark .title-rule {
+  background: linear-gradient(90deg, var(--gaia), var(--aurora));
+}
+
+.body-text {
+  font-size: 17px;
+  line-height: 1.8;
+  margin-bottom: 22px;
+  color: inherit;
+}
+
+.section-light .body-text { color: var(--text-dark); }
+.section-dark .body-text { color: var(--text-cream); opacity: 0.9; }
+
+.body-text .hl-gaia { color: var(--gaia-deep); font-weight: 500; }
+.body-text .hl-aurora { color: var(--aurora-deep); font-weight: 500; }
+.section-dark .body-text .hl-gaia { color: var(--gaia-soft); }
+.section-dark .body-text .hl-aurora { color: var(--aurora-soft); }
+
+.lead-text {
+  font-family: 'Raleway', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 21px;
+  line-height: 1.7;
+  margin-bottom: 36px;
+  color: var(--text-muted-l);
+}
+
+.section-dark .lead-text { color: var(--text-muted-d); }
+
+/* ══════════════════════════════════════════════
+   DEVICE CARDS — Gaia + Aurora side by side
+   ══════════════════════════════════════════════ */
+.devices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+@media (max-width: 760px) {
+  .devices-grid { grid-template-columns: 1fr; }
+}
+
+.device-card {
+  position: relative;
+  padding: 50px 38px 44px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(10,14,42,0.6);
+  border: 1px solid var(--line-d);
+  transition: all 0.4s ease;
+}
+
+.device-card.gaia {
+  border-top: 3px solid var(--gaia);
+  background: linear-gradient(180deg,
+    rgba(212,160,78,0.06) 0%,
+    rgba(10,14,42,0.7) 60%
+  );
+}
+
+.device-card.aurora {
+  border-top: 3px solid var(--aurora);
+  background: linear-gradient(180deg,
+    rgba(95,212,160,0.06) 0%,
+    rgba(10,14,42,0.7) 60%
+  );
+}
+
+.device-card:hover {
+  transform: translateY(-4px);
+}
+
+.device-icon {
+  font-size: 36px;
+  margin-bottom: 18px;
+  display: block;
+}
+
+.device-name {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-cream);
+  letter-spacing: 1px;
+}
+
+.device-card.gaia .device-name { color: var(--gaia-soft); }
+.device-card.aurora .device-name { color: var(--aurora-soft); }
+
+.device-freq {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: rgba(240,237,224,0.5);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.device-tagline {
+  font-family: 'Raleway', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--text-cream);
+  margin-bottom: 22px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.device-spec {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  color: var(--text-muted-d);
+  line-height: 1.7;
+}
+
+.device-spec .label {
+  color: var(--gaia);
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 11px;
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.device-card.aurora .device-spec .label {
+  color: var(--aurora);
+}
+
+/* ══════════════════════════════════════════════
+   AGENDA / WORKSHOP FLOW
+   ══════════════════════════════════════════════ */
+.agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 40px;
+  border-top: 1px solid var(--line-l);
+}
+
+.agenda-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 30px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line-l);
+  align-items: start;
+}
+
+.agenda-num {
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--gaia);
+  line-height: 1;
+}
+
+.agenda-num .small { font-size: 14px; opacity: 0.6; }
+
+.agenda-content h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.agenda-content p {
+  font-size: 15px;
+  color: var(--text-muted-l);
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════════════════════
+   COMPONENT TABLE — bill of materials
+   ══════════════════════════════════════════════ */
+.bom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 36px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+}
+
+.bom-table thead {
+  background: var(--bg-light-2);
+  border-bottom: 2px solid var(--gaia);
+}
+
+.bom-table th {
+  text-align: left;
+  padding: 16px 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gaia-deep);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.bom-table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line-l);
+  color: var(--text-dark);
+  vertical-align: top;
+}
+
+.bom-table tr.gaia-row td:first-child {
+  border-left: 3px solid var(--gaia);
+}
+
+.bom-table tr.aurora-row td:first-child {
+  border-left: 3px solid var(--aurora);
+}
+
+.bom-table tr.shared-row td:first-child {
+  border-left: 3px solid #999;
+}
+
+.bom-table .qty {
+  font-family: 'Cinzel', serif;
+  color: var(--gaia-deep);
+  font-weight: 600;
+  text-align: center;
+  width: 60px;
+}
+
+/* ══════════════════════════════════════════════
+   PRINCIPLE BLOCKS — physics callouts
+   ══════════════════════════════════════════════ */
+.principles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+@media (max-width: 760px) {
+  .principles { grid-template-columns: 1fr; }
+}
+
+.principle {
+  padding: 36px 28px;
+  background: rgba(10,14,42,0.5);
+  border-left: 2px solid var(--gaia);
+  position: relative;
+}
+
+.principle.aurora { border-left-color: var(--aurora); }
+
+.principle-num {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gaia);
+  margin-bottom: 12px;
+}
+
+.principle.aurora .principle-num { color: var(--aurora); }
+
+.principle h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text-cream);
+  margin-bottom: 14px;
+  letter-spacing: 0.3px;
+}
+
+.principle p {
+  font-size: 14.5px;
+  color: var(--text-muted-d);
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════════════════════
+   CHARGE TARGETS GRID
+   ══════════════════════════════════════════════ */
+.targets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin-top: 40px;
+}
+
+.target {
+  text-align: center;
+  padding: 32px 18px;
+  background: var(--bg-light-2);
+  border: 1px solid var(--line-l);
+  transition: all 0.3s ease;
+}
+
+.target:hover {
+  background: rgba(212,160,78,0.08);
+  border-color: var(--gaia);
+  transform: translateY(-3px);
+}
+
+.target-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.target-name {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--text-dark);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.target-time {
+  font-family: 'Raleway', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted-l);
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════
+   PREP CHECKLIST — interactive
+   ══════════════════════════════════════════════ */
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 18px 24px;
+  background: rgba(95,212,160,0.04);
+  border-left: 2px solid var(--aurora);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.check-item:hover {
+  background: rgba(95,212,160,0.08);
+}
+
+.check-item.checked {
+  opacity: 0.55;
+  background: rgba(95,212,160,0.02);
+}
+
+.check-item.checked .check-text { text-decoration: line-through; }
+
+.check-box {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--aurora);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--aurora);
+  transition: all 0.2s ease;
+}
+
+.check-item.checked .check-box::after {
+  content: '✓';
+  font-family: serif;
+  font-weight: 700;
+}
+
+.check-text {
+  font-size: 15.5px;
+  color: var(--text-cream);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════
+   QUOTE BLOCK
+   ══════════════════════════════════════════════ */
+.quote-block {
+  text-align: center;
+  padding: 60px 30px;
+  margin: 60px 0;
+  border-top: 1px solid var(--line-d);
+  border-bottom: 1px solid var(--line-d);
+}
+
+.quote-mark {
+  font-family: 'Cinzel', serif;
+  font-size: 80px;
+  color: var(--gaia);
+  opacity: 0.3;
+  line-height: 0.3;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.quote-text {
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--text-cream);
+  line-height: 1.5;
+  max-width: 700px;
+  margin: 0 auto;
+  letter-spacing: 0.5px;
+}
+
+.quote-text .hl { color: var(--aurora-soft); font-style: italic; }
+
+/* ══════════════════════════════════════════════
+   CTA SECTION
+   ══════════════════════════════════════════════ */
+.cta-section {
+  background: var(--bg-deep);
+  text-align: center;
+  padding: 120px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+#ctaCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 5;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 600;
+  color: var(--text-cream);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.cta-title .accent { color: var(--aurora); font-style: italic; }
+
+.cta-sub {
+  font-size: 18px;
+  font-style: italic;
+  color: var(--text-muted-d);
+  margin-bottom: 50px;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 22px 56px;
+  background: linear-gradient(135deg, var(--gaia) 0%, var(--aurora) 100%);
+  color: var(--bg-deep);
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 40px rgba(95,212,160,0.2);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 50px rgba(95,212,160,0.35);
+}
+
+.cta-meta {
+  margin-top: 50px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gaia);
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* ══════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════ */
+.footer {
+  background: #050818;
+  padding: 50px 24px 30px;
+  text-align: center;
+  border-top: 1px solid var(--line-d);
+}
+
+.footer-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 5px;
+  color: var(--gaia);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.footer-link {
+  font-family: 'Raleway', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted-d);
+  letter-spacing: 1px;
+}
+
+.footer-link a {
+  color: var(--aurora-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-link a:hover { color: var(--aurora); }
+
+/* ══════════════════════════════════════════════
+   PROGRESS BAR
+   ══════════════════════════════════════════════ */
+.progress-fixed {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gaia), var(--aurora));
+  z-index: 1000;
+  width: 0%;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 10px rgba(95,212,160,0.5);
+}
+
+/* small detail elements */
+.ornament {
+  width: 80px;
+  height: 1px;
+  margin: 24px auto;
+  background: linear-gradient(90deg, transparent, var(--gaia), transparent);
+  position: relative;
+}
+
+.ornament::before {
+  content: '◆';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gaia);
+  font-size: 10px;
+  background: var(--bg-light);
+  padding: 0 8px;
+}
+
+.section-dark .ornament::before { background: var(--bg-deep); }
+
+/* responsive tweaks */
+@media (max-width: 600px) {
+  .hero-title { font-size: 42px; }
+  .lesson-tag { font-size: 11px; letter-spacing: 3px; padding: 10px 20px; }
+  .hero-meta { gap: 18px; font-size: 10px; letter-spacing: 2px; }
+  .agenda-item { grid-template-columns: 60px 1fr; gap: 18px; }
+  .agenda-num { font-size: 26px; }
+  .section-light, .section-dark, .section-mid { padding: 70px 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="progress-fixed" id="progressBar"></div>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════ -->
+<section class="hero">
+  <canvas id="auroraCanvas"></canvas>
+  <div class="hero-content">
+    <div class="lesson-tag">FCS · FREQUENCY TECHNOLOGY</div>
+    <h1 class="hero-title">
+      Gaia's Pulse <span class="amp">&</span><br>
+      Aurora's Echo
+    </h1>
+    <p class="hero-sub">
+      A complete companion to the two-device frequency charging station —
+      the field rig that imprints Earth's heartbeat and the repair frequency
+      onto copper, water, jewelry, and any receptive material that crosses your bench.
+    </p>
+    <div class="hero-meta">
+      <span>The Frequency Academy</span>
+      <span class="dot">·</span>
+      <span>Workshop Companion</span>
+      <span class="dot">·</span>
+      <span>Read time ~ 28 min</span>
+    </div>
+  </div>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PRELUDE — Why these two
+     ══════════════════════════════════════════════ -->
+<section class="section-light">
+  <div class="container">
+    <span class="eyebrow">Prelude</span>
+    <h2 class="section-title">Why <span class="accent-gaia">two</span> devices, not <span class="accent-aurora">one</span>.</h2>
+    <div class="title-rule"></div>
+
+    <p class="lead-text">
+      Most charging stations try to do everything from a single oscillator. We don't. The work asks for two.
+    </p>
+
+    <p class="body-text">
+      <span class="hl-gaia">Gaia's Pulse</span> holds the carrier — 7.83 hertz, the Schumann resonance, the standing electromagnetic note that lives in the cavity between Earth's surface and the ionosphere. It is the frequency your nervous system entrained to before the cities and the wifi. It is the frequency your body still remembers as <em>home</em>.
+    </p>
+
+    <p class="body-text">
+      <span class="hl-aurora">Aurora's Echo</span> holds the structuring tone — 528 hertz, the repair frequency. The note that shows up in cymatic plates as ordered geometry, in water studies as cleaner crystalline structure, in DNA research as a candidate for transcription support. Where Gaia steadies, Aurora <em>tunes</em>.
+    </p>
+
+    <p class="body-text">
+      Run them together and the field is no longer a single tone — it is a chord. The carrier that says <em>you are home</em> beneath the structuring tone that says <em>and you are healing</em>. Two devices. One field. That's why we built the station this way.
+    </p>
+
+    <div class="ornament"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     THE TWO DEVICES — side by side
+     ══════════════════════════════════════════════ -->
+<section class="section-dark">
+  <div class="container">
+    <span class="eyebrow">The Devices</span>
+    <h2 class="section-title">Meet the <span class="accent-gaia">pair</span>.</h2>
+    <div class="title-rule"></div>
+
+    <p class="body-text">
+      Each device is a sealed-loop oscillator — a precision signal generator paired with a copper coil radiator and a quartz-anchored ground plane. Same chassis, different soul. One holds Earth. One holds light.
+    </p>
+
+    <div class="devices-grid">
+
+      <!-- GAIA'S PULSE -->
+      <div class="device-card gaia">
+        <span class="device-icon">🌍</span>
+        <div class="device-name">Gaia's Pulse</div>
+        <div class="device-freq">7.83 Hz · Schumann</div>
+        <div class="device-tagline">
+          The carrier. Earth's natural electromagnetic heartbeat. The frequency your body knows as ground.
+        </div>
+        <div class="device-spec">
+          <span class="label">Function</span>
+          Generates a steady ELF (extremely low frequency) field at 7.83 Hz, matching the Earth-ionosphere cavity resonance.
+
+          <span class="label">Body Response</span>
+          Parasympathetic shift, alpha-state EEG entrainment, settling of the autonomic field.
+
+          <span class="label">Best For</span>
+          Grounding, sleep prep, nervous-system reset, restoring coherence after EMF exposure.
+        </div>
+      </div>
+
+      <!-- AURORA'S ECHO -->
+      <div class="device-card aurora">
+        <span class="device-icon">✨</span>
+        <div class="device-name">Aurora's Echo</div>
+        <div class="device-freq">528 Hz · Solfeggio</div>
+        <div class="device-tagline">
+          The structurer. The healing tone. The note that re-orders geometry in water, copper, and crystal alike.
+        </div>
+        <div class="device-spec">
+          <span class="label">Function</span>
+          Generates a 528 Hz audio-band signal coupled to the copper radiator, modulated as a clean sine.
+
+          <span class="label">Body Response</span>
+          Subjective heart-coherence, reported "clarity" responses in HRV studies, structural water reorganization.
+
+          <span class="label">Best For</span>
+          Charging copper, structuring water, programming jewelry, blessing food and devotional objects.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     THE STORY — why we built them as a pair
+     ══════════════════════════════════════════════ -->
+<section class="section-light">
+  <div class="container">
+    <span class="eyebrow">Lineage</span>
+    <h2 class="section-title">The story behind the <span class="accent-gaia">pair</span>.</h2>
+    <div class="title-rule"></div>
+
+    <p class="body-text">
+      The original frequency charging stations the Frequency Brothers built ran a single dual-tone oscillator — both frequencies multiplexed through one coil. It worked. But the field was muddy. Two signals fighting for the same conductor produced harmonics nobody asked for, and the device drifted out of tune within a few hours of continuous run.
+    </p>
+
+    <p class="body-text">
+      Splitting them changed everything. Two dedicated oscillators. Two dedicated coils. Each tone radiating from its own clean ground plane, both fields overlapping in the air above the charging tray. Cleaner harmonics. More stable drift profile. And — for reasons we are still studying — measurably faster imprint times on copper bracelets in our bench tests.
+    </p>
+
+    <p class="body-text">
+      The names came after the splitting. Gaia for the Earth tone. Aurora for the light tone. Pulse and Echo because that's what they sound like on an oscilloscope when you watch them both at once — a slow steady pulse beneath a brighter, faster echo.
+    </p>
+
+    <p class="body-text">
+      <span class="hl-gaia">This is the first workshop where we open the case on both of them.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     THE PHYSICS — paired principles
+     ══════════════════════════════════════════════ -->
+<section class="section-dark">
+  <div class="container">
+    <span class="eyebrow">The Physics</span>
+    <h2 class="section-title">Why <span class="accent-gaia">7.83</span> and <span class="accent-aurora">528</span> together.</h2>
+    <div class="title-rule"></div>
+
+    <p class="body-text">
+      Four principles to keep in your back pocket as we build. The math behind why the two-device approach is not just an aesthetic choice but a measurable improvement.
+    </p>
+
+    <div class="principles">
+
+      <div class="principle">
+        <div class="principle-num">PRINCIPLE 01</div>
+        <h4>Cavity Resonance</h4>
+        <p>The Earth and ionosphere act as a giant closed cavity. 7.83 Hz is the fundamental standing wave inside that cavity. Gaia's Pulse sits exactly in tune with that natural standing field — it doesn't fight Earth, it joins her.</p>
+      </div>
+
+      <div class="principle aurora">
+        <div class="principle-num">PRINCIPLE 02</div>
+        <h4>Structural Coherence</h4>
+        <p>528 Hz appears repeatedly in cymatic experiments as the frequency that produces the most ordered geometric patterns in water and fine particulate. Aurora's Echo uses this principle to push toward cleaner crystalline structure on charging targets.</p>
+      </div>
+
+      <div class="principle">
+        <div class="principle-num">PRINCIPLE 03</div>
+        <h4>Non-Interference Coupling</h4>
+        <p>The two frequencies sit in completely different bands — one ELF, one audio — which means they can radiate in the same airspace without producing intermodulation distortion. Two clean fields, one shared volume.</p>
+      </div>
+
+      <div class="principle aurora">
+        <div class="principle-num">PRINCIPLE 04</div>
+        <h4>Carrier and Modulator</h4>
+        <p>Gaia stabilizes the local field. Aurora delivers the work. Think of it as a steady AM carrier with the actual healing information riding on top — except both signals are real, dedicated, and physically separate.</p>
+      </div>
+
+    </div>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">
+        The Earth holds you. The light <span class="hl">tunes you.</span> Both at once. That's the whole device.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     WORKSHOP AGENDA
+     ══════════════════════════════════════════════ -->
+<section class="section-light">
+  <div class="container">
+    <span class="eyebrow">Tomorrow · 10AM PT · Online</span>
+    <h2 class="section-title">The <span class="accent-gaia">workshop</span> flow.</h2>
+    <div class="title-rule"></div>
+
+    <p class="lead-text">
+      What we'll move through together, in order.
+    </p>
+
+    <div class="agenda">
+
+      <div class="agenda-item">
+        <div class="agenda-num">01<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>Welcome &amp; Field Setup</h4>
+          <p>Open the container. Brief grounding. Quick tour of the bench, the materials, and what we're going to walk out with.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-num">02<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>The Physics — Why These Two</h4>
+          <p>The full breakdown of 7.83 and 528 working together. Cavity resonance, structural coherence, non-interference coupling. The science before the soldering.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-num">03<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>The Story — Gaia's Pulse &amp; Aurora's Echo</h4>
+          <p>How the original Frequency Brothers' single-coil design failed. Why we split it. How the names came. The lineage we're inheriting and what we're adding to it.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-num">04<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>Live Teardown — Inside One of the Devices</h4>
+          <p>I'll open up one of our finished units on camera and walk through every component piece by piece. The oscillator, the coil winding, the quartz anchor, the ground plane, the casing. You'll see exactly what's inside the device you can hold in your hand.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-num">05<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>Frequency Verification — Live Testing</h4>
+          <p>This is the part most people never get to see. I'll hook the device up to a frequency counter and an oscilloscope, run it live, and show you the actual signal being emitted. Real measurements, real waveform, in real time. No claims — just the data.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-num">06<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>How the Two Devices Work Together</h4>
+          <p>Both devices running side by side, both signals visible on the scope. You'll see how Gaia's Pulse and Aurora's Echo overlap in the air without distorting each other, and why the dual-field setup is measurably cleaner than a single-coil charging station.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-num">07<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>Live Charging Demonstration</h4>
+          <p>Both devices on. The charging tray loaded. We'll run a copper bracelet, a water glass, and a piece of jewelry through the dual field — and I'll explain what's happening at the level of the metal, the water, and the field as we watch it happen.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-num">08<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>How to Charge Things</h4>
+          <p>Working sessions on copper bracelets, water vessels, jewelry, food, and devotional objects. Charging times, ritual setups, and how to know when something is "done."</p>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-num">09<span class="small">.</span></div>
+        <div class="agenda-content">
+          <h4>Live Q&amp;A</h4>
+          <p>Open floor for the entire room. Bring your questions about the technology, the science, the application, or about ordering your own pair. We answer everything.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     BILL OF MATERIALS
+     ══════════════════════════════════════════════ -->
+<section class="section-mid">
+  <div class="container">
+    <span class="eyebrow">Inside the Devices</span>
+    <h2 class="section-title">What's <span class="accent-gaia">inside</span>.</h2>
+    <div class="title-rule"></div>
+
+    <p class="body-text">
+      Most people who own a frequency device have never opened one. Tomorrow we open one — and this table is your reference for what you're looking at as we go through it piece by piece. Color-coded by which device each component lives in.
+    </p>
+
+    <table class="bom-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Device</th>
+          <th>Notes</th>
+          <th class="qty">Qty</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="gaia-row">
+          <td>Precision ELF oscillator IC</td>
+          <td>Gaia's Pulse</td>
+          <td>The heart of the device. We chose this chip specifically for drift stability — cheaper alternatives wander out of tune within hours.</td>
+          <td class="qty">1</td>
+        </tr>
+        <tr class="gaia-row">
+          <td>14 AWG bare copper wire (coil)</td>
+          <td>Gaia's Pulse</td>
+          <td>The Schumann coil. Hand-wound to a specific turn count for the 7.83 Hz resonance. Visible in the teardown.</td>
+          <td class="qty">~30 ft</td>
+        </tr>
+        <tr class="gaia-row">
+          <td>Quartz crystal — programming grade</td>
+          <td>Gaia's Pulse</td>
+          <td>Anchors the ground plane. We use untreated, undyed quartz — heat-treated stones distort the field.</td>
+          <td class="qty">1</td>
+        </tr>
+
+        <tr class="aurora-row">
+          <td>Audio-band signal generator IC</td>
+          <td>Aurora's Echo</td>
+          <td>Different chip than Gaia's. Tuned for the cleaner audio band where 528 Hz lives.</td>
+          <td class="qty">1</td>
+        </tr>
+        <tr class="aurora-row">
+          <td>16 AWG enameled copper (coil)</td>
+          <td>Aurora's Echo</td>
+          <td>Tighter winding pattern than Gaia's. The enamel coating is what allows the closer turns without shorting.</td>
+          <td class="qty">~22 ft</td>
+        </tr>
+        <tr class="aurora-row">
+          <td>Quartz crystal — clear, untreated</td>
+          <td>Aurora's Echo</td>
+          <td>Smaller than Gaia's anchor. Acts as resonator, not just ground — adds a subtle harmonic to the 528 carrier.</td>
+          <td class="qty">1</td>
+        </tr>
+
+        <tr class="shared-row">
+          <td>9V regulated power supply</td>
+          <td>Both</td>
+          <td>One per device. Regulated only — wall-wart noise distorts the field. We ship matched supplies with each pair.</td>
+          <td class="qty">2</td>
+        </tr>
+        <tr class="shared-row">
+          <td>Copper-lined charging tray</td>
+          <td>Both</td>
+          <td>Sits in the overlap zone between the two devices. Where the magic happens.</td>
+          <td class="qty">1</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <p class="body-text" style="margin-top: 36px; font-size: 14.5px; opacity: 0.8;">
+      <em>Each device is hand-built in our workshop. Both Gaia's Pulse and Aurora's Echo are available as a matched pair through The Frequency Academy — limited runs, same-day fulfillment when in stock. Reach out in the community after the workshop if you want to bring a pair home.</em>
+    </p>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHARGE TARGETS
+     ══════════════════════════════════════════════ -->
+<section class="section-light">
+  <div class="container">
+    <span class="eyebrow">Application</span>
+    <h2 class="section-title">What you can <span class="accent-aurora">charge</span>.</h2>
+    <div class="title-rule"></div>
+
+    <p class="body-text">
+      Once both devices are up and running, the charging tray becomes the active workspace. Anything receptive to the field can be programmed in it. Approximate charge times for first-pass imprinting:
+    </p>
+
+    <div class="targets-grid">
+      <div class="target">
+        <span class="target-icon">⚡</span>
+        <div class="target-name">Copper</div>
+        <div class="target-time">15 min</div>
+      </div>
+      <div class="target">
+        <span class="target-icon">💧</span>
+        <div class="target-name">Water</div>
+        <div class="target-time">8 min</div>
+      </div>
+      <div class="target">
+        <span class="target-icon">💎</span>
+        <div class="target-name">Crystals</div>
+        <div class="target-time">20 min</div>
+      </div>
+      <div class="target">
+        <span class="target-icon">💍</span>
+        <div class="target-name">Jewelry</div>
+        <div class="target-time">12 min</div>
+      </div>
+      <div class="target">
+        <span class="target-icon">🍯</span>
+        <div class="target-name">Food / Honey</div>
+        <div class="target-time">5 min</div>
+      </div>
+      <div class="target">
+        <span class="target-icon">🌿</span>
+        <div class="target-name">Herbs / Teas</div>
+        <div class="target-time">10 min</div>
+      </div>
+      <div class="target">
+        <span class="target-icon">🕯️</span>
+        <div class="target-name">Devotional Objects</div>
+        <div class="target-time">Ritual-led</div>
+      </div>
+      <div class="target">
+        <span class="target-icon">🧿</span>
+        <div class="target-name">Tensor Rings</div>
+        <div class="target-time">25 min</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PREPARATION CHECKLIST
+     ══════════════════════════════════════════════ -->
+<section class="section-dark">
+  <div class="container">
+    <span class="eyebrow">Tomorrow Morning</span>
+    <h2 class="section-title">Come <span class="accent-aurora">prepared</span>.</h2>
+    <div class="title-rule"></div>
+
+    <p class="body-text">
+      This workshop is built to be watched, not built along to. Just bring yourself, your attention, and an open mind. Tap each item once you're set.
+    </p>
+
+    <div class="checklist" id="checklist">
+      <div class="check-item" data-key="zoom">
+        <div class="check-box"></div>
+        <div class="check-text">Have the Skool community open in your browser by 9:55am PT — the Zoom link drops at 9:58.</div>
+      </div>
+      <div class="check-item" data-key="notebook">
+        <div class="check-box"></div>
+        <div class="check-text">Notebook + pen if you take notes. The physics section especially is worth writing down. Slides will be pinned afterward.</div>
+      </div>
+      <div class="check-item" data-key="water">
+        <div class="check-box"></div>
+        <div class="check-text">A glass of water nearby. You'll be sitting still for a couple hours and your body will thank you.</div>
+      </div>
+      <div class="check-item" data-key="screen">
+        <div class="check-box"></div>
+        <div class="check-text">Watch on the biggest screen you've got. The teardown footage and oscilloscope readouts are detail-heavy — phones will work, but a laptop is better.</div>
+      </div>
+      <div class="check-item" data-key="ring">
+        <div class="check-box"></div>
+        <div class="check-text">If you built a tensor ring this week — bring it (visually). I may charge one of mine on camera at the end of the session.</div>
+      </div>
+      <div class="check-item" data-key="questions">
+        <div class="check-box"></div>
+        <div class="check-text">Write down 2-3 questions you've been sitting with. Bring them to the live Q&amp;A in step 09.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CTA
+     ══════════════════════════════════════════════ -->
+<section class="cta-section">
+  <canvas id="ctaCanvas"></canvas>
+  <div class="cta-content">
+    <span class="eyebrow">Live Tomorrow · 10AM PT</span>
+    <h2 class="cta-title">
+      See you in the <span class="accent">field.</span>
+    </h2>
+    <p class="cta-sub">
+      Online only this round. Free for every Skool member. One of the last free workshops before TFA moves to premium-only access.
+    </p>
+    <a href="https://www.skool.com/the-frequency-academy-3454/about" class="cta-button">
+      Join on Skool
+    </a>
+    <div class="cta-meta">
+      The Frequency Academy is free
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-logo">The Frequency Academy</div>
+  <div class="footer-link">
+    <a href="https://thefrequencyacademy.net">thefrequencyacademy.net</a>
+    &nbsp;·&nbsp;
+    Workshop Companion · FCS · Frequency Charging Station
+  </div>
+</footer>
+
+<script>
+// ════════════════════════════════════════════
+// PROGRESS BAR
+// ════════════════════════════════════════════
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (scrolled / max) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+
+// ════════════════════════════════════════════
+// AURORA CANVAS — hero background
+// flowing aurora ribbons in gaia + aurora colors
+// ════════════════════════════════════════════
+const auroraC = document.getElementById('auroraCanvas');
+const auroraX = auroraC.getContext('2d');
+
+function resizeAurora() {
+  auroraC.width = auroraC.offsetWidth * window.devicePixelRatio;
+  auroraC.height = auroraC.offsetHeight * window.devicePixelRatio;
+  auroraX.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+resizeAurora();
+window.addEventListener('resize', resizeAurora);
+
+// particle field
+const particles = [];
+const particleCount = 60;
+const W = () => auroraC.offsetWidth;
+const H = () => auroraC.offsetHeight;
+
+for (let i = 0; i < particleCount; i++) {
+  particles.push({
+    x: Math.random() * W(),
+    y: Math.random() * H(),
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    r: Math.random() * 1.8 + 0.4,
+    a: Math.random() * 0.5 + 0.2,
+    pulse: Math.random() * Math.PI * 2,
+    hue: Math.random() < 0.5 ? 'gaia' : 'aurora'
+  });
+}
+
+function drawAurora() {
+  auroraX.clearRect(0, 0, W(), H());
+  const t = Date.now() * 0.001;
+
+  // connect nearby particles with thin lines
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const p = particles[i], q = particles[j];
+      const dx = p.x - q.x, dy = p.y - q.y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < 130) {
+        const alpha = 0.08 * (1 - d/130);
+        const color = (p.hue === 'gaia' && q.hue === 'gaia')
+          ? `rgba(212,160,78,${alpha})`
+          : (p.hue === 'aurora' && q.hue === 'aurora')
+          ? `rgba(95,212,160,${alpha})`
+          : `rgba(180,200,140,${alpha * 0.7})`;
+        auroraX.beginPath();
+        auroraX.moveTo(p.x, p.y);
+        auroraX.lineTo(q.x, q.y);
+        auroraX.strokeStyle = color;
+        auroraX.lineWidth = 0.5;
+        auroraX.stroke();
+      }
+    }
+  }
+
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0) p.x = W();
+    if (p.x > W()) p.x = 0;
+    if (p.y < 0) p.y = H();
+    if (p.y > H()) p.y = 0;
+
+    const pulse = 0.4 + 0.6 * Math.sin(t * 1.2 + p.pulse);
+    const color = p.hue === 'gaia'
+      ? `rgba(212,160,78,${p.a * pulse})`
+      : `rgba(95,212,160,${p.a * pulse})`;
+
+    auroraX.beginPath();
+    auroraX.arc(p.x, p.y, p.r * (0.7 + 0.5 * pulse), 0, Math.PI * 2);
+    auroraX.fillStyle = color;
+    auroraX.fill();
+  });
+
+  requestAnimationFrame(drawAurora);
+}
+drawAurora();
+
+// ════════════════════════════════════════════
+// CTA CANVAS — same vibe, smaller
+// ════════════════════════════════════════════
+const ctaC = document.getElementById('ctaCanvas');
+const ctaX = ctaC.getContext('2d');
+
+function resizeCTA() {
+  ctaC.width = ctaC.offsetWidth * window.devicePixelRatio;
+  ctaC.height = ctaC.offsetHeight * window.devicePixelRatio;
+  ctaX.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+resizeCTA();
+window.addEventListener('resize', resizeCTA);
+
+const ctaParticles = [];
+const Wc = () => ctaC.offsetWidth;
+const Hc = () => ctaC.offsetHeight;
+for (let i = 0; i < 35; i++) {
+  ctaParticles.push({
+    x: Math.random() * Wc(),
+    y: Math.random() * Hc(),
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: (Math.random() - 0.5) * 0.25,
+    r: Math.random() * 1.5 + 0.4,
+    a: Math.random() * 0.4 + 0.15,
+    pulse: Math.random() * Math.PI * 2,
+    hue: Math.random() < 0.5 ? 'gaia' : 'aurora'
+  });
+}
+
+function drawCTA() {
+  ctaX.clearRect(0, 0, Wc(), Hc());
+  const t = Date.now() * 0.001;
+  ctaParticles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0) p.x = Wc();
+    if (p.x > Wc()) p.x = 0;
+    if (p.y < 0) p.y = Hc();
+    if (p.y > Hc()) p.y = 0;
+    const pulse = 0.4 + 0.6 * Math.sin(t + p.pulse);
+    const color = p.hue === 'gaia'
+      ? `rgba(212,160,78,${p.a * pulse})`
+      : `rgba(95,212,160,${p.a * pulse})`;
+    ctaX.beginPath();
+    ctaX.arc(p.x, p.y, p.r * (0.7 + 0.5 * pulse), 0, Math.PI * 2);
+    ctaX.fillStyle = color;
+    ctaX.fill();
+  });
+  requestAnimationFrame(drawCTA);
+}
+drawCTA();
+
+// ════════════════════════════════════════════
+// CHECKLIST — interactive with persistent storage
+// ════════════════════════════════════════════
+async function loadChecklist() {
+  const items = document.querySelectorAll('.check-item');
+  for (const item of items) {
+    const key = item.dataset.key;
+    try {
+      const result = await window.storage.get(`fcs_check_${key}`);
+      if (result && result.value === 'true') {
+        item.classList.add('checked');
+      }
+    } catch (e) {
+      // not yet set, leave unchecked
+    }
+  }
+}
+
+async function toggleCheck(item) {
+  const key = item.dataset.key;
+  item.classList.toggle('checked');
+  const isChecked = item.classList.contains('checked');
+  try {
+    await window.storage.set(`fcs_check_${key}`, isChecked ? 'true' : 'false');
+  } catch (e) {
+    console.warn('Storage save failed:', e);
+  }
+}
+
+document.querySelectorAll('.check-item').forEach(item => {
+  item.addEventListener('click', () => toggleCheck(item));
+});
+
+// Try to load saved state — if storage isn't available (preview), fail silently
+if (window.storage && typeof window.storage.get === 'function') {
+  loadChecklist();
+}
+</script>
+
+</body>
+</html>
