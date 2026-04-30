@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMF Awareness — Interactive Lesson | The Frequency Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy-deep: #0D1240;
+    --navy-mid: #161B5C;
+    --navy-light: #1E2470;
+    --gold: #C9A84C;
+    --gold-bright: #E8C76A;
+    --cream: #E8E4D0;
+    --red: #E89090;
+    --green: #A0E0B5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Raleway', sans-serif;
+    color: var(--cream);
+    background: var(--navy-deep);
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Animated background field */
+  .bg-field {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -2;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(201,168,76,0.08) 0%, transparent 40%),
+      radial-gradient(ellipse at 80% 70%, rgba(201,168,76,0.06) 0%, transparent 50%),
+      linear-gradient(180deg, var(--navy-deep) 0%, var(--navy-mid) 50%, var(--navy-deep) 100%);
+  }
+
+  .bg-particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  /* Progress bar - your TFA pattern */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+    z-index: 1000;
+    width: 0%;
+    transition: width 0.2s ease;
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  /* Floating save indicator */
+  .save-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(13, 18, 64, 0.95);
+    border-top: 1px solid var(--gold);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+    font-size: 0.85rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.15em;
+  }
+  .save-bar .save-status { color: var(--gold); }
+  .save-bar button {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 6px 16px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.15em;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+  .save-bar button:hover {
+    background: var(--gold);
+    color: var(--navy-deep);
+  }
+
+  /* Container */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 30px 100px;
+  }
+
+  /* Hero section */
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 40px 0;
+  }
+  .hero-tag {
+    border: 1px solid var(--gold);
+    padding: 8px 28px;
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    letter-spacing: 0.4em;
+    font-size: 0.7rem;
+    margin-bottom: 30px;
+    animation: fadeInDown 1s ease;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-shadow: 0 0 40px rgba(201, 168, 76, 0.4);
+    animation: fadeIn 1.5s ease;
+  }
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+    color: var(--cream);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+    opacity: 0.85;
+    animation: fadeIn 2s ease;
+  }
+  .scroll-cue {
+    margin-top: 40px;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    animation: bounce 2.5s ease-in-out infinite;
+  }
+  .scroll-cue::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: var(--gold);
+    margin: 12px auto 0;
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+  @keyframes scrollLine {
+    0%, 100% { transform: scaleY(0.3); transform-origin: top; opacity: 0.3; }
+    50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  }
+
+  /* Hero seal SVG container */
+  .hero-seal {
+    width: 220px;
+    height: 220px;
+    margin: 30px auto;
+    position: relative;
+    animation: fadeIn 2.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-seal .ring-outer,
+  .hero-seal .ring-inner {
+    position: absolute;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+  }
+  .hero-seal .ring-outer {
+    width: 220px; height: 220px;
+    animation: rotateClockwise 40s linear infinite;
+    border-style: dashed;
+    opacity: 0.4;
+  }
+  .hero-seal .ring-inner {
+    width: 160px; height: 160px;
+    animation: rotateCounterClockwise 30s linear infinite;
+    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+    border-width: 1px;
+  }
+  .hero-seal .core {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: var(--gold);
+  }
+  .hero-seal .core-symbol {
+    font-size: 3rem;
+    text-shadow: 0 0 20px var(--gold);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .hero-seal .core-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    margin-top: 5px;
+  }
+
+  @keyframes rotateClockwise {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes rotateCounterClockwise {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.08); }
+  }
+
+  /* Section styling */
+  section {
+    margin: 100px 0;
+    padding: 20px 0;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .section-tag {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h2.section-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+  h2.section-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin-top: 16px;
+  }
+  .section-lead {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: var(--cream);
+    letter-spacing: 0.15em;
+    margin-bottom: 30px;
+    opacity: 0.85;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    margin: 28px 0 12px;
+    border-left: 3px solid var(--gold);
+    padding-left: 14px;
+  }
+  h4 {
+    font-size: 1.1rem;
+    margin: 18px 0 8px;
+    color: var(--gold-bright);
+  }
+  p { margin-bottom: 14px; }
+
+  .gold { color: var(--gold); font-weight: 600; }
+  strong { color: var(--gold-bright); font-weight: 600; }
+
+  ul { margin: 12px 0 16px 22px; }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--gold); }
+
+  /* Cards */
+  .card {
+    background: rgba(20, 24, 75, 0.6);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    padding: 24px 28px;
+    margin: 20px 0;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+    transition: all 0.4s ease;
+  }
+  .card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 30px rgba(201, 168, 76, 0.15);
+  }
+  .card-title {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* Quote */
+  .quote {
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    color: var(--gold-bright);
+    font-size: 1.15rem;
+    margin: 40px auto;
+    max-width: 600px;
+    padding: 20px 0;
+    line-height: 1.6;
+    border-top: 1px solid rgba(201, 168, 76, 0.3);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+  }
+  .quote-attr {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    margin-top: 12px;
+    font-style: normal;
+  }
+
+  /* Divider */
+  .divider {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.5rem;
+    margin: 50px 0;
+    letter-spacing: 1.5em;
+    opacity: 0.7;
+  }
+
+  /* ============ INTERACTIVE: WAVE VISUALIZER ============ */
+  .wave-viz {
+    background: rgba(13, 18, 64, 0.6);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .wave-canvas {
+    width: 100%;
+    height: 220px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    display: block;
+  }
+  .wave-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .wave-btn {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 22px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.2em;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .wave-btn:hover { background: rgba(201, 168, 76, 0.1); }
+  .wave-btn.active {
+    background: var(--gold);
+    color: var(--navy-deep);
+    box-shadow: 0 0 15px rgba(201, 168, 76, 0.5);
+  }
+  .wave-readout {
+    text-align: center;
+    margin-top: 15px;
+    font-family: 'Cinzel', serif;
+    color: var(--gold-bright);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    min-height: 24px;
+  }
+
+  /* ============ INTERACTIVE: FREQUENCY SPECTRUM ============ */
+  .spectrum {
+    background: rgba(13, 18, 64, 0.6);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0;
+  }
+  .spectrum-bar {
+    height: 60px;
+    background: linear-gradient(90deg,
+      #4caf50 0%,
+      #8bc34a 12%,
+      #ffc107 28%,
+      #ff9800 45%,
+      #ff5722 65%,
+      #f44336 85%,
+      #b71c1c 100%);
+    border-radius: 4px;
+    position: relative;
+    margin: 30px 0 50px;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(201, 168, 76, 0.2);
+  }
+  .spectrum-marker {
+    position: absolute;
+    top: -8px;
+    width: 2px;
+    height: 76px;
+    background: var(--cream);
+    transform: translateX(-50%);
+    transition: left 0.3s ease;
+    pointer-events: none;
+  }
+  .spectrum-marker::before {
+    content: "";
+    position: absolute;
+    top: -6px; left: 50%;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border: 2px solid var(--cream);
+    transform: translateX(-50%) rotate(45deg);
+    box-shadow: 0 0 10px var(--gold);
+  }
+  .spectrum-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--cream);
+    letter-spacing: 0.15em;
+    margin-top: -38px;
+  }
+  .spectrum-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 30px;
+  }
+  .spec-card {
+    background: rgba(20, 24, 75, 0.5);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    padding: 16px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .spec-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  .spec-card.active {
+    background: rgba(201, 168, 76, 0.12);
+    border-color: var(--gold);
+  }
+  .spec-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .spec-freq {
+    color: var(--gold-bright);
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+  }
+  .spec-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  /* ============ INTERACTIVE: VGCC CELL ============ */
+  .cell-viz {
+    background: rgba(13, 18, 64, 0.6);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0;
+    text-align: center;
+  }
+  .cell-stage {
+    width: 100%;
+    max-width: 500px;
+    height: 320px;
+    margin: 0 auto;
+    position: relative;
+    background: radial-gradient(circle, rgba(20,30,80,0.6) 0%, rgba(13,18,64,0.9) 100%);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(201, 168, 76, 0.3);
+  }
+  .cell-membrane {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 220px; height: 220px;
+    transform: translate(-50%, -50%);
+    border: 3px solid var(--gold);
+    border-radius: 50%;
+    background: rgba(201, 168, 76, 0.05);
+    transition: all 0.6s ease;
+  }
+  .cell-membrane.stressed {
+    border-color: #ff5050;
+    box-shadow: 0 0 30px rgba(255, 80, 80, 0.5);
+    animation: cellShake 0.4s ease-in-out infinite;
+  }
+  .cell-nucleus {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 60px; height: 60px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, var(--gold-bright) 0%, var(--gold) 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--gold);
+  }
+  @keyframes cellShake {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    25% { transform: translate(-51%, -50%) rotate(0.5deg); }
+    75% { transform: translate(-49%, -50%) rotate(-0.5deg); }
+  }
+  .calcium-ion {
+    position: absolute;
+    width: 8px; height: 8px;
+    background: #66ddff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #66ddff;
+    pointer-events: none;
+  }
+  .vgcc-channel {
+    position: absolute;
+    width: 14px; height: 22px;
+    background: var(--gold);
+    border-radius: 4px;
+    transition: background 0.4s;
+  }
+  .vgcc-channel.open {
+    background: #ff5050;
+    box-shadow: 0 0 12px #ff5050;
+  }
+  .cell-controls {
+    margin-top: 25px;
+  }
+  .cell-status {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-bright);
+    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    min-height: 22px;
+  }
+
+  /* ============ INTERACTIVE: TENSOR RING ============ */
+  .ring-viz {
+    background: rgba(13, 18, 64, 0.6);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0;
+  }
+  .ring-stage {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .tensor-ring-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .ring-info {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .ring-cubit-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 1.4rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .ring-cubit-freq {
+    color: var(--gold-bright);
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.15em;
+  }
+  .ring-cubit-quality {
+    color: var(--cream);
+    font-size: 0.9rem;
+    max-width: 500px;
+    margin: 0 auto;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .cubit-selector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 25px;
+  }
+  .cubit-btn {
+    background: transparent;
+    border: 1px solid rgba(201, 168, 76, 0.5);
+    color: var(--cream);
+    padding: 8px 14px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.15em;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .cubit-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .cubit-btn.active {
+    background: var(--gold);
+    color: var(--navy-deep);
+    border-color: var(--gold);
+  }
+
+  /* ============ INTERACTIVE: PILLARS ============ */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin: 30px 0;
+  }
+  .pillar-card {
+    background: rgba(20, 24, 75, 0.6);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    padding: 22px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transition: left 0.6s ease;
+  }
+  .pillar-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+  .pillar-card:hover::before { left: 100%; }
+  .pillar-num {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .pillar-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .pillar-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  /* Distance demo */
+  .distance-demo {
+    background: rgba(13, 18, 64, 0.6);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0;
+  }
+  .distance-stage {
+    width: 100%;
+    height: 220px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .source {
+    position: absolute;
+    top: 50%; left: 60px;
+    transform: translateY(-50%);
+    width: 30px; height: 30px;
+    background: radial-gradient(circle, #ff5050 0%, #b71c1c 100%);
+    border-radius: 4px;
+    box-shadow: 0 0 20px #ff5050;
+    z-index: 2;
+  }
+  .source::after {
+    content: "📱";
+    position: absolute;
+    top: -22px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-family: 'Cinzel', serif;
+    color: var(--cream);
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+  }
+  .person {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px; height: 50px;
+    background: var(--cream);
+    border-radius: 11px 11px 4px 4px;
+    transition: left 0.5s ease;
+    z-index: 2;
+    box-shadow: 0 0 10px rgba(201, 168, 76, 0.3);
+  }
+  .person::before {
+    content: "";
+    position: absolute;
+    top: -18px; left: 50%;
+    transform: translateX(-50%);
+    width: 18px; height: 18px;
+    background: var(--cream);
+    border-radius: 50%;
+  }
+  .field-wave {
+    position: absolute;
+    top: 50%; left: 75px;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,80,80,0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .distance-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .distance-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: linear-gradient(90deg, #ff5050, #ffc107, #4caf50);
+    border-radius: 2px;
+    outline: none;
+  }
+  .distance-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px; height: 22px;
+    background: var(--gold);
+    border: 2px solid var(--cream);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--gold);
+  }
+  .distance-slider::-moz-range-thumb {
+    width: 22px; height: 22px;
+    background: var(--gold);
+    border: 2px solid var(--cream);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .distance-readout {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-bright);
+    letter-spacing: 0.15em;
+    font-size: 0.95rem;
+    min-width: 140px;
+    text-align: right;
+  }
+  .exposure-meter {
+    margin-top: 15px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+  }
+  .exposure-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 6px;
+    margin: 10px 0;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+  .exposure-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50, #ffc107, #ff5050);
+    transition: width 0.4s ease;
+    width: 100%;
+  }
+
+  /* ============ INTERACTIVE: BEDROOM SANCTUARY ============ */
+  .bedroom-viz {
+    background: rgba(13, 18, 64, 0.6);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0;
+  }
+  .bedroom-stage {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .heatmap-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  .room-element {
+    position: absolute;
+    cursor: pointer;
+    transition: all 0.3s;
+    user-select: none;
+  }
+  .room-element .icon {
+    font-size: 1.6rem;
+    text-align: center;
+    display: block;
+  }
+  .room-element .label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    color: var(--cream);
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  .room-element.active .icon {
+    filter: drop-shadow(0 0 8px #ff5050);
+  }
+  .room-element.inactive {
+    opacity: 0.4;
+  }
+  .room-element.inactive .icon {
+    filter: grayscale(0.7);
+  }
+  .room-element.protective.active .icon {
+    filter: drop-shadow(0 0 8px var(--gold));
+  }
+  .bed-element {
+    position: absolute;
+    bottom: 15%; left: 50%;
+    transform: translateX(-50%);
+    width: 35%;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(201,168,76,0.2), rgba(201,168,76,0.4));
+    border: 1px solid var(--gold);
+    border-radius: 8px 8px 4px 4px;
+  }
+  .bed-element::before {
+    content: "🛌";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.6rem;
+  }
+  .bedroom-summary {
+    margin-top: 20px;
+    text-align: center;
+    padding: 18px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    border: 1px solid rgba(201, 168, 76, 0.3);
+  }
+  .bedroom-score {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .bedroom-rating {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-bright);
+    letter-spacing: 0.25em;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+  .bedroom-help {
+    font-size: 0.8rem;
+    color: rgba(232, 228, 208, 0.7);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* ============ SELF-ASSESSMENT QUIZ ============ */
+  .quiz {
+    background: rgba(13, 18, 64, 0.6);
+    border: 1px dashed var(--gold);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0;
+  }
+  .quiz-question {
+    display: flex;
+    align-items: flex-start;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    background: rgba(20, 24, 75, 0.4);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+  }
+  .quiz-question:hover {
+    background: rgba(20, 24, 75, 0.7);
+    border-color: rgba(201, 168, 76, 0.4);
+  }
+  .quiz-question.checked {
+    background: rgba(201, 168, 76, 0.12);
+    border-color: var(--gold);
+  }
+  .quiz-checkbox {
+    width: 18px; height: 18px;
+    border: 2px solid var(--gold);
+    border-radius: 3px;
+    margin-right: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .quiz-question.checked .quiz-checkbox {
+    background: var(--gold);
+  }
+  .quiz-question.checked .quiz-checkbox::after {
+    content: "✓";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -52%);
+    color: var(--navy-deep);
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  .quiz-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .quiz-result {
+    margin-top: 25px;
+    padding: 22px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    border: 1px solid var(--gold);
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .quiz-score {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .quiz-message {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-bright);
+    letter-spacing: 0.2em;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .quiz-guidance {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--cream);
+  }
+
+  /* Reflection */
+  .reflection {
+    background: rgba(201, 168, 76, 0.06);
+    border: 1px dashed var(--gold);
+    padding: 24px 28px;
+    margin: 28px 0;
+    border-radius: 6px;
+  }
+  .reflection-prompt {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .reflection textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    color: var(--cream);
+    padding: 14px 16px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 80px;
+    transition: border 0.3s;
+  }
+  .reflection textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 12px rgba(201, 168, 76, 0.2);
+  }
+
+  /* CTA section */
+  .cta-section {
+    text-align: center;
+    margin-top: 80px;
+    padding: 60px 20px;
+    background: radial-gradient(circle at center, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
+    border-top: 1px solid rgba(201, 168, 76, 0.3);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+  }
+  .cta-section h2 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin-bottom: 12px;
+  }
+  .cta-section .lead {
+    font-family: 'Cinzel', serif;
+    color: var(--cream);
+    letter-spacing: 0.3em;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    max-width: 500px;
+    margin: 30px auto;
+  }
+  .cta-link {
+    display: block;
+    padding: 22px 28px;
+    background: rgba(201, 168, 76, 0.05);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--cream);
+    transition: all 0.4s;
+    text-align: center;
+  }
+  .cta-link:hover {
+    background: rgba(201, 168, 76, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(201, 168, 76, 0.2);
+  }
+  .cta-link .link-title {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .cta-link .link-desc {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    opacity: 0.85;
+  }
+  .cta-link .link-url {
+    color: var(--gold-bright);
+    font-size: 0.75rem;
+    font-family: 'Courier New', monospace;
+  }
+
+  .closing-mantra {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    line-height: 1.8;
+    margin-top: 40px;
+    font-size: 0.9rem;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px 80px;
+    color: rgba(232, 228, 208, 0.5);
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+    .spectrum-info { grid-template-columns: 1fr; }
+    main { padding: 40px 20px 100px; }
+    .room-element .label { font-size: 0.5rem; }
+    .room-element .icon { font-size: 1.3rem; }
+  }
+
+  /* Utility */
+  .center { text-align: center; }
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.5rem;
+    letter-spacing: 1em;
+    margin: 30px 0;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-field"></div>
+<canvas class="bg-particles" id="bgParticles"></canvas>
+<div class="progress-bar" id="progressBar"></div>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero visible">
+    <div class="hero-tag">FREE INTERACTIVE LESSON</div>
+    <h1>EMF Awareness</h1>
+    <div class="hero-subtitle">The Invisible Field &amp; The Sovereign Body</div>
+    <div class="hero-seal">
+      <div class="ring-outer"></div>
+      <div class="ring-inner"></div>
+      <div class="core">
+        <div class="core-symbol">⚡</div>
+        <div class="core-text">FREQUENCY<br>ACADEMY</div>
+      </div>
+    </div>
+    <div class="scroll-cue">SCROLL TO BEGIN</div>
+  </section>
+
+  <!-- ============ SECTION 1: WHAT IS EMF ============ -->
+  <section id="s1">
+    <div class="section-tag">PART I · UNDERSTANDING THE FIELD</div>
+    <h2 class="section-title">The Field You Cannot See</h2>
+    <div class="section-lead">AN INVITATION TO SOVEREIGNTY</div>
+
+    <p>You are an antenna. Every cell in your body is a tuned resonator, communicating in pulses of light, voltage, and frequency. Long before words, the body speaks in waveforms — and it listens to them too.</p>
+
+    <p>Modern life has filled the air with frequencies our ancestors never encountered. This lesson is not fear. It is <span class="gold">remembrance</span> — and the practical knowledge to live in harmony with the field.</p>
+
+    <div class="quote">
+      "If you want to find the secrets of the universe, think in terms of energy, frequency and vibration."
+      <div class="quote-attr">— NIKOLA TESLA</div>
+    </div>
+
+    <h3>Watch the Field</h3>
+    <p>Below you can see two field signatures. <strong>Chaotic EMF</strong> is what your body encounters from artificial sources — a noisy, dissonant pattern. <strong>Coherent EMF</strong> is the signature of a harmonized field — what natural sources, tensor rings, and scalar devices generate. <span class="gold">Toggle between them.</span> Notice the difference, even with the eyes alone.</p>
+
+    <div class="wave-viz">
+      <canvas class="wave-canvas" id="waveCanvas"></canvas>
+      <div class="wave-controls">
+        <button class="wave-btn active" data-mode="chaotic">⚠ Chaotic Field</button>
+        <button class="wave-btn" data-mode="coherent">⚡ Coherent Field</button>
+        <button class="wave-btn" data-mode="schumann">🌍 Schumann (7.83 Hz)</button>
+      </div>
+      <div class="wave-readout" id="waveReadout">Chaotic EMF — overlapping artificial frequencies</div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 2: THE SPECTRUM ============ -->
+  <section id="s2">
+    <div class="section-tag">PART II · THE FOUR CATEGORIES</div>
+    <h2 class="section-title">Where Your Exposures Live</h2>
+    <div class="section-lead">A SPECTRUM OF FIELDS</div>
+
+    <p>Click any source below to find it on the spectrum. The colors run from green (life-supporting) through to red (most disruptive). Where do most of <em>your</em> daily exposures sit?</p>
+
+    <div class="spectrum">
+      <div class="spectrum-bar" id="spectrumBar">
+        <div class="spectrum-marker" id="specMarker" style="left: 50%;"></div>
+      </div>
+      <div class="spectrum-labels">
+        <span>0 Hz · DC</span>
+        <span>1 kHz</span>
+        <span>1 MHz</span>
+        <span>1 GHz · 5G</span>
+      </div>
+
+      <div class="spectrum-info">
+        <div class="spec-card" data-pos="3" data-name="Schumann Resonance" data-freq="7.83 Hz · Earth's natural pulse" data-desc="The heartbeat of the planet — what your nervous system evolved to entrain to. Restorative.">
+          <div class="spec-name">🌍 Schumann</div>
+          <div class="spec-freq">7.83 Hz</div>
+          <div class="spec-desc">Earth's pulse — restorative</div>
+        </div>
+        <div class="spec-card" data-pos="20" data-name="Power Lines / ELF" data-freq="50–60 Hz · House wiring, appliances" data-desc="Constant background ELF from electrical infrastructure. Cumulative effect.">
+          <div class="spec-name">⚡ ELF Wiring</div>
+          <div class="spec-freq">50–60 Hz</div>
+          <div class="spec-desc">Power lines, appliances</div>
+        </div>
+        <div class="spec-card" data-pos="55" data-name="Dirty Electricity" data-freq="2–150 kHz · Transients on wiring" data-desc="High-frequency noise riding on your home wiring from dimmer switches, LEDs, and inverters.">
+          <div class="spec-name">🔌 Dirty Electricity</div>
+          <div class="spec-freq">2–150 kHz</div>
+          <div class="spec-desc">Transients on wiring</div>
+        </div>
+        <div class="spec-card" data-pos="73" data-name="AM/FM Radio" data-freq="500 kHz – 100 MHz" data-desc="The original RF environment — broadcast radio. Lower power, broader wavelengths.">
+          <div class="spec-name">📻 Radio</div>
+          <div class="spec-freq">500 kHz – 100 MHz</div>
+          <div class="spec-desc">Broadcast signal</div>
+        </div>
+        <div class="spec-card" data-pos="84" data-name="Cell Phones" data-freq="700 MHz – 2.6 GHz · Pulsed RF" data-desc="The big one. Pulsed digital signals at high power, often held against the head.">
+          <div class="spec-name">📱 Cell Phone</div>
+          <div class="spec-freq">700 MHz – 2.6 GHz</div>
+          <div class="spec-desc">Pulsed RF</div>
+        </div>
+        <div class="spec-card" data-pos="89" data-name="Wi-Fi" data-freq="2.4 GHz · Constant pulsed RF" data-desc="Always-on pulsed microwave radiation from routers, smart devices, mesh systems.">
+          <div class="spec-name">📶 Wi-Fi</div>
+          <div class="spec-freq">2.4 / 5 GHz</div>
+          <div class="spec-desc">Constant pulsed RF</div>
+        </div>
+        <div class="spec-card" data-pos="92" data-name="Bluetooth" data-freq="2.4 GHz · Worn directly on body" data-desc="Lower power than Wi-Fi but worn directly against the skull or chest — exposure is intimate.">
+          <div class="spec-name">🎧 Bluetooth</div>
+          <div class="spec-freq">2.4 GHz</div>
+          <div class="spec-desc">Worn on body</div>
+        </div>
+        <div class="spec-card" data-pos="98" data-name="5G mmWave" data-freq="24–47 GHz · Millimeter wave" data-desc="The newest exposure. Short wavelengths, dense small-cell deployment, novel frequency profile.">
+          <div class="spec-name">🛰️ 5G mmWave</div>
+          <div class="spec-freq">24–47 GHz</div>
+          <div class="spec-desc">Millimeter wave</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: VGCC CELL ============ -->
+  <section id="s3">
+    <div class="section-tag">PART III · THE BIOLOGICAL TRUTH</div>
+    <h2 class="section-title">Inside the Cell</h2>
+    <div class="section-lead">VOLTAGE-GATED CALCIUM CHANNELS</div>
+
+    <p>Multiple peer-reviewed studies — most notably the work of <strong>Dr. Martin Pall</strong> — point to <span class="gold">Voltage-Gated Calcium Channels (VGCCs)</span> as a primary site of EMF action. When these channels are activated by external fields, excess calcium floods the cell, triggering a cascade of oxidative stress, peroxynitrite formation, and inflammation.</p>
+
+    <p>The animation below shows one of your cells. <strong>Apply EMF</strong> to see the channels open and calcium ions flood the membrane. <strong>Apply harmonization</strong> to watch the field calm and the channels close. This is happening in your body, right now, billions of times per second.</p>
+
+    <div class="cell-viz">
+      <div class="cell-stage" id="cellStage">
+        <div class="cell-membrane" id="cellMembrane"></div>
+        <div class="cell-nucleus"></div>
+      </div>
+      <div class="cell-controls">
+        <div class="cell-status" id="cellStatus">⚡ Cellular state: balanced</div>
+        <div class="wave-controls">
+          <button class="wave-btn" data-cell-mode="calm">🌙 Calm State</button>
+          <button class="wave-btn" data-cell-mode="emf">⚠ Apply EMF</button>
+          <button class="wave-btn" data-cell-mode="protected">⚡ Apply Harmonization</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: SYMPTOMS QUIZ ============ -->
+  <section id="s4">
+    <div class="section-tag">PART IV · SELF-ASSESSMENT</div>
+    <h2 class="section-title">Signals of an Overloaded Field</h2>
+    <div class="section-lead">A SOVEREIGN INVENTORY</div>
+
+    <p>The body always tells the truth. Check any signal you have experienced in the past 30 days. There is no judgment here — only data. Your sovereignty begins with honesty.</p>
+
+    <p style="font-size: 0.85rem; opacity: 0.75; font-style: italic;">Note — these signals can have many causes. EMF exposure is one variable among several. The pattern matters more than any single item.</p>
+
+    <div class="quiz" id="symptomQuiz">
+      <h4 style="border: none; padding: 0; margin: 0 0 12px;">◆ Sleep &amp; Nervous System</h4>
+      <div class="quiz-question" data-q="1"><div class="quiz-checkbox"></div><div class="quiz-text">Disrupted sleep or insomnia, especially in rooms with electronics</div></div>
+      <div class="quiz-question" data-q="2"><div class="quiz-checkbox"></div><div class="quiz-text">Tinnitus or unexplained ringing in the ears</div></div>
+      <div class="quiz-question" data-q="3"><div class="quiz-checkbox"></div><div class="quiz-text">Headaches or pressure that increase with phone or laptop use</div></div>
+      <div class="quiz-question" data-q="4"><div class="quiz-checkbox"></div><div class="quiz-text">Anxiety, restlessness, or low-grade panic without an obvious trigger</div></div>
+      <div class="quiz-question" data-q="5"><div class="quiz-checkbox"></div><div class="quiz-text">Vivid dreams, sleep paralysis, or hyper-aroused sleep</div></div>
+      <div class="quiz-question" data-q="6"><div class="quiz-checkbox"></div><div class="quiz-text">Difficulty falling asleep even when exhausted (wired-and-tired)</div></div>
+      <div class="quiz-question" data-q="7"><div class="quiz-checkbox"></div><div class="quiz-text">Mood swings, irritability, or emotional volatility</div></div>
+      <div class="quiz-question" data-q="8"><div class="quiz-checkbox"></div><div class="quiz-text">Depression or persistent low mood without clear cause</div></div>
+
+      <h4 style="border: none; padding: 0; margin: 18px 0 12px;">◆ Cognitive &amp; Memory</h4>
+      <div class="quiz-question" data-q="9"><div class="quiz-checkbox"></div><div class="quiz-text">Brain fog or difficulty focusing after extended screen time</div></div>
+      <div class="quiz-question" data-q="10"><div class="quiz-checkbox"></div><div class="quiz-text">Short-term memory lapses (forgetting why you walked into a room)</div></div>
+      <div class="quiz-question" data-q="11"><div class="quiz-checkbox"></div><div class="quiz-text">Word-finding difficulty or losing your train of thought mid-sentence</div></div>
+      <div class="quiz-question" data-q="12"><div class="quiz-checkbox"></div><div class="quiz-text">Mental fatigue disproportionate to the work performed</div></div>
+      <div class="quiz-question" data-q="13"><div class="quiz-checkbox"></div><div class="quiz-text">Difficulty learning or retaining new information</div></div>
+      <div class="quiz-question" data-q="14"><div class="quiz-checkbox"></div><div class="quiz-text">A diminished sense of intuitive clarity or energetic sensitivity</div></div>
+
+      <h4 style="border: none; padding: 0; margin: 18px 0 12px;">◆ Energy &amp; Cardiovascular</h4>
+      <div class="quiz-question" data-q="15"><div class="quiz-checkbox"></div><div class="quiz-text">Fatigue that does not resolve with sleep</div></div>
+      <div class="quiz-question" data-q="16"><div class="quiz-checkbox"></div><div class="quiz-text">Heart palpitations or skipped beats, often near devices</div></div>
+      <div class="quiz-question" data-q="17"><div class="quiz-checkbox"></div><div class="quiz-text">Sudden temperature regulation issues (hot flashes, cold extremities)</div></div>
+      <div class="quiz-question" data-q="18"><div class="quiz-checkbox"></div><div class="quiz-text">Dizziness, lightheadedness, or sense of imbalance</div></div>
+      <div class="quiz-question" data-q="19"><div class="quiz-checkbox"></div><div class="quiz-text">Blood pressure fluctuations or unusual pulse changes</div></div>
+
+      <h4 style="border: none; padding: 0; margin: 18px 0 12px;">◆ Skin &amp; Sensory</h4>
+      <div class="quiz-question" data-q="20"><div class="quiz-checkbox"></div><div class="quiz-text">Skin flushing, redness, or unexplained warm sensations on the face</div></div>
+      <div class="quiz-question" data-q="21"><div class="quiz-checkbox"></div><div class="quiz-text">Tingling, prickling, or "electric" sensations on the skin</div></div>
+      <div class="quiz-question" data-q="22"><div class="quiz-checkbox"></div><div class="quiz-text">Rashes, eczema, or unexplained skin sensitivity</div></div>
+      <div class="quiz-question" data-q="23"><div class="quiz-checkbox"></div><div class="quiz-text">Eye strain, dry eyes, or visual disturbances after screen time</div></div>
+      <div class="quiz-question" data-q="24"><div class="quiz-checkbox"></div><div class="quiz-text">Sensitivity to light, sound, or other stimuli has increased</div></div>
+      <div class="quiz-question" data-q="25"><div class="quiz-checkbox"></div><div class="quiz-text">Metallic taste in the mouth or strange sensory artifacts</div></div>
+
+      <h4 style="border: none; padding: 0; margin: 18px 0 12px;">◆ Immune &amp; Inflammatory</h4>
+      <div class="quiz-question" data-q="26"><div class="quiz-checkbox"></div><div class="quiz-text">Recurring infections or slow recovery from illness</div></div>
+      <div class="quiz-question" data-q="27"><div class="quiz-checkbox"></div><div class="quiz-text">Autoimmune flare-ups or chronic inflammatory conditions worsening</div></div>
+      <div class="quiz-question" data-q="28"><div class="quiz-checkbox"></div><div class="quiz-text">Joint pain, muscle aches, or unexplained body soreness</div></div>
+      <div class="quiz-question" data-q="29"><div class="quiz-checkbox"></div><div class="quiz-text">Swollen lymph nodes or general inflammatory feelings</div></div>
+      <div class="quiz-question" data-q="30"><div class="quiz-checkbox"></div><div class="quiz-text">Allergic reactions or histamine responses are more frequent</div></div>
+
+      <h4 style="border: none; padding: 0; margin: 18px 0 12px;">◆ Hormonal &amp; Digestive</h4>
+      <div class="quiz-question" data-q="31"><div class="quiz-checkbox"></div><div class="quiz-text">Menstrual irregularities, hormonal swings, or libido changes</div></div>
+      <div class="quiz-question" data-q="32"><div class="quiz-checkbox"></div><div class="quiz-text">Thyroid symptoms (energy crashes, weight changes, temperature)</div></div>
+      <div class="quiz-question" data-q="33"><div class="quiz-checkbox"></div><div class="quiz-text">Digestive distress, bloating, or new food sensitivities</div></div>
+      <div class="quiz-question" data-q="34"><div class="quiz-checkbox"></div><div class="quiz-text">Adrenal fatigue patterns (afternoon crashes, salt cravings)</div></div>
+      <div class="quiz-question" data-q="35"><div class="quiz-checkbox"></div><div class="quiz-text">Hair thinning, brittle nails, or other signs of depletion</div></div>
+
+      <div class="quiz-result" id="quizResult">
+        <div class="quiz-message">CHECK ITEMS ABOVE TO SEE YOUR FIELD</div>
+        <div class="quiz-guidance">Each item you mark adjusts the reading. Be honest with yourself — sovereignty begins here.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 5: PILLARS + DISTANCE ============ -->
+  <section id="s5">
+    <div class="section-tag">PART V · THE PATH OF HARMONIZATION</div>
+    <h2 class="section-title">The Four Pillars of Protection</h2>
+    <div class="section-lead">APPLIED TOGETHER · NEVER IN ISOLATION</div>
+
+    <p>There is no single solution. Genuine harmonization rests on four pillars, applied together. Skipping any one of them is the most common mistake — and the reason most "EMF gadgets" disappoint when used alone.</p>
+
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-num">I</div>
+        <div class="pillar-name">Distance</div>
+        <div class="pillar-text">Field strength drops with the inverse square of distance. Six feet is exponentially better than six inches. The single most powerful adjustment.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-num">II</div>
+        <div class="pillar-name">Shielding</div>
+        <div class="pillar-text">Hardwire what you can. Disable Wi-Fi at night. Use airplane mode generously. The bedroom is sacred — eight hours of low-EMF sleep is the foundation.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-num">III</div>
+        <div class="pillar-name">Harmonization</div>
+        <div class="pillar-text">For the EMF you cannot remove, you can shift its bioenergetic signature. Tensor rings, scalar fields, orgonite. <strong>Coherence above chaos.</strong></div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-num">IV</div>
+        <div class="pillar-name">Embodied Resilience</div>
+        <div class="pillar-text">A grounded, hydrated, mineralized body is far less reactive to EMF than a depleted one. Earthing, sun, breath — your bioenergetic immune system.</div>
+      </div>
+    </div>
+
+    <h3>The Inverse Square Law — Try It</h3>
+    <p>Drag the slider to move yourself further from the EMF source. Watch your exposure level drop. <span class="gold">This is the most powerful, free, instant change you can make.</span></p>
+
+    <div class="distance-demo">
+      <div class="distance-stage" id="distanceStage">
+        <div class="source"></div>
+        <div class="field-wave" id="fieldWave"></div>
+        <div class="person" id="person" style="left: 100px;"></div>
+      </div>
+      <div class="distance-slider-row">
+        <input type="range" min="0" max="100" value="10" class="distance-slider" id="distanceSlider">
+        <div class="distance-readout" id="distanceReadout">2 inches · 100% exposure</div>
+      </div>
+      <div class="exposure-meter">
+        <div class="exposure-bar"><div class="exposure-fill" id="exposureFill"></div></div>
+        <div id="exposureLabel" style="color: #ff5050;">⚠ MAXIMUM EXPOSURE</div>
+      </div>
+    </div>
+
+    <div class="quote">
+      "You do not protect yourself from the field. You become coherent within it."
+      <div class="quote-attr">— TFA TEACHING</div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 6: BEDROOM SANCTUARY ============ -->
+  <section id="s6">
+    <div class="section-tag">PART VI · THE SACRED SANCTUARY</div>
+    <h2 class="section-title">Build Your Bedroom Field</h2>
+    <div class="section-lead">EIGHT HOURS · DEEP REPAIR</div>
+
+    <p>The bedroom is the single most important room in your home for EMF hygiene. Eight hours of low-EMF sleep does more than any device. <span class="gold">Click each element to toggle it.</span> Watch the heatmap respond. Your goal — make the area around the bed as cool as possible.</p>
+
+    <div class="bedroom-viz">
+      <div class="bedroom-stage" id="bedroomStage">
+        <canvas class="heatmap-canvas" id="heatmapCanvas"></canvas>
+        <div class="bed-element"></div>
+
+        <div class="room-element active" data-emf="35" data-type="emit" style="top: 8%; left: 6%;">
+          <div class="icon">📡</div><div class="label">Wi-Fi Router</div>
+        </div>
+        <div class="room-element active" data-emf="40" data-type="emit" style="top: 12%; right: 8%;">
+          <div class="icon">📱</div><div class="label">Phone (on)</div>
+        </div>
+        <div class="room-element active" data-emf="20" data-type="emit" style="top: 35%; left: 8%;">
+          <div class="icon">📺</div><div class="label">Smart TV</div>
+        </div>
+        <div class="room-element active" data-emf="25" data-type="emit" style="top: 38%; right: 5%;">
+          <div class="icon">⏰</div><div class="label">Smart Alarm</div>
+        </div>
+        <div class="room-element active" data-emf="15" data-type="emit" style="top: 70%; left: 5%;">
+          <div class="icon">💡</div><div class="label">LED Lamp</div>
+        </div>
+        <div class="room-element inactive" data-emf="-30" data-type="protect" style="bottom: 8%; right: 8%;">
+          <div class="icon">⟁</div><div class="label">Tensor Ring</div>
+        </div>
+        <div class="room-element inactive" data-emf="-25" data-type="protect" style="top: 8%; left: 50%; transform: translateX(-50%);">
+          <div class="icon">⚡</div><div class="label">Cosmic Cake</div>
+        </div>
+      </div>
+
+      <div class="bedroom-summary">
+        <div class="bedroom-score" id="bedroomScore">HIGH</div>
+        <div class="bedroom-rating" id="bedroomRating">FIELD INTENSITY</div>
+        <div class="bedroom-help" id="bedroomHelp">Click red items to turn them off · Click gold items to activate harmonization</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 7: TENSOR RING SELECTOR ============ -->
+  <section id="s7">
+    <div class="section-tag">PART VII · TECHNOLOGIES OF REMEMBRANCE</div>
+    <h2 class="section-title">The Tensor Ring</h2>
+    <div class="section-lead">SACRED CUBITS · COHERENT FIELDS</div>
+
+    <p>The tensor ring is one of the oldest and most elegant tools of harmonization. A length of conductive wire — most often copper — coiled and joined into a closed loop along a precisely calculated <span class="gold">cubit measurement</span>, generates a self-sustaining field that is neither electric nor magnetic in the conventional sense. The ancients called it by many names. We call it a <span class="gold">scalar field</span>.</p>
+
+    <p>Below is a living tensor ring. Each cubit measurement generates a different frequency signature — and a different quality of consciousness it supports. <span class="gold">Select a cubit to feel into its field.</span></p>
+
+    <div class="ring-viz">
+      <div class="ring-stage">
+        <svg class="tensor-ring-svg" viewBox="0 0 400 400" id="ringSvg">
+          <defs>
+            <radialGradient id="ringGlow">
+              <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.4"/>
+              <stop offset="50%" stop-color="#C9A84C" stop-opacity="0.1"/>
+              <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="goldGlow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="200" cy="200" r="180" fill="url(#ringGlow)" id="ringField"/>
+          <g id="ringFieldLines"></g>
+          <circle cx="200" cy="200" r="120" stroke="#C9A84C" stroke-width="3" fill="none" filter="url(#goldGlow)" id="mainRing"/>
+          <circle cx="200" cy="200" r="120" stroke="#E8C76A" stroke-width="1" fill="none" stroke-dasharray="4 6" opacity="0.7" id="dashRing">
+            <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="20s" repeatCount="indefinite"/>
+          </circle>
+          <g id="ringParticles"></g>
+          <circle cx="200" cy="200" r="6" fill="#C9A84C" filter="url(#goldGlow)">
+            <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+
+      <div class="ring-info">
+        <div class="ring-cubit-name" id="cubitName">SACRED CONTINENT</div>
+        <div class="ring-cubit-freq" id="cubitFreq">68 MHz</div>
+        <div class="ring-cubit-quality" id="cubitQuality">Earth resonance, deep grounding. The cubit of the mineral kingdom — connection to land, ancestral memory, and the body's relationship with the planet itself.</div>
+      </div>
+
+      <div class="cubit-selector" id="cubitSelector">
+        <button class="cubit-btn active" data-cubit="continent">Continent</button>
+        <button class="cubit-btn" data-cubit="ramu">Ra-Mu</button>
+        <button class="cubit-btn" data-cubit="dragon">Dragon</button>
+        <button class="cubit-btn" data-cubit="viking">Viking</button>
+        <button class="cubit-btn" data-cubit="cosmic">Cosmic Connector</button>
+        <button class="cubit-btn" data-cubit="scorpion">Scorpion</button>
+        <button class="cubit-btn" data-cubit="stu">STU</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 8: DAILY PRACTICE ============ -->
+  <section id="s8">
+    <div class="section-tag">PART VIII · INTEGRATION</div>
+    <h2 class="section-title">A Daily Practice</h2>
+    <div class="section-lead">SMALL ACTS · COMPOUND EFFECT</div>
+
+    <p>Knowledge without practice is theatre. Below is a simple daily protocol you can begin tonight. <span class="gold">Check the items you commit to.</span> They will save automatically.</p>
+
+    <div class="quiz" id="practiceList">
+      <h4 style="border: none; padding: 0; margin: 0 0 14px;">Morning</h4>
+      <div class="quiz-question" data-p="m1"><div class="quiz-checkbox"></div><div class="quiz-text">Five minutes of unfiltered morning sunlight on the eyes</div></div>
+      <div class="quiz-question" data-p="m2"><div class="quiz-checkbox"></div><div class="quiz-text">Bare feet on the earth — three to ten minutes of grounding</div></div>
+      <div class="quiz-question" data-p="m3"><div class="quiz-checkbox"></div><div class="quiz-text">16 oz of structured water on waking</div></div>
+      <div class="quiz-question" data-p="m4"><div class="quiz-checkbox"></div><div class="quiz-text">No phone for the first 30 minutes</div></div>
+
+      <h4 style="border: none; padding: 0; margin: 18px 0 14px;">Throughout the Day</h4>
+      <div class="quiz-question" data-p="d1"><div class="quiz-checkbox"></div><div class="quiz-text">Phone off the body — bag, desk, table</div></div>
+      <div class="quiz-question" data-p="d2"><div class="quiz-checkbox"></div><div class="quiz-text">Speakerphone or wired earbuds over Bluetooth</div></div>
+      <div class="quiz-question" data-p="d3"><div class="quiz-checkbox"></div><div class="quiz-text">Hardwire your work — Ethernet over Wi-Fi</div></div>
+      <div class="quiz-question" data-p="d4"><div class="quiz-checkbox"></div><div class="quiz-text">Three slow nasal breaths every two hours</div></div>
+
+      <h4 style="border: none; padding: 0; margin: 18px 0 14px;">Evening</h4>
+      <div class="quiz-question" data-p="e1"><div class="quiz-checkbox"></div><div class="quiz-text">Wi-Fi off at the wall (10pm — 6am)</div></div>
+      <div class="quiz-question" data-p="e2"><div class="quiz-checkbox"></div><div class="quiz-text">Phone on airplane mode 1+ hour before sleep</div></div>
+      <div class="quiz-question" data-p="e3"><div class="quiz-checkbox"></div><div class="quiz-text">Devices out of the bedroom (or 6+ feet away)</div></div>
+      <div class="quiz-question" data-p="e4"><div class="quiz-checkbox"></div><div class="quiz-text">Tensor ring on the nightstand</div></div>
+      <div class="quiz-question" data-p="e5"><div class="quiz-checkbox"></div><div class="quiz-text">Three minutes of breathwork before sleep</div></div>
+    </div>
+
+    <div class="reflection">
+      <div class="reflection-prompt">◆ Personal Inquiry</div>
+      <p style="margin-bottom: 12px;">Of all the practices above, which one feels most aligned for you to begin <strong>tonight</strong>? Write it below. The act of writing is itself a commitment.</p>
+      <textarea id="reflectionText" placeholder="Begin here..."></textarea>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-section">
+    <div class="ornament">✦ ❖ ✦</div>
+    <h2>The Path Continues</h2>
+    <div class="lead">YOU HAVE STEPPED INTO THE CURRENT</div>
+
+    <p style="max-width: 600px; margin: 0 auto 30px;">This lesson is the doorway. The full <strong>Electromagnetic Healing Sciences</strong> module inside The Frequency Academy goes deeper into shielding strategies, building your own harmonization devices, the alchemy of metals, plasma GANS science, and ancient mystery-school teachings on the subtle field.</p>
+
+    <div class="cta-grid">
+      <a class="cta-link" href="https://skool.com/the-frequency-academy-3454/about" target="_blank">
+        <div class="link-title">⟁ The Frequency Academy</div>
+        <div class="link-desc">16 modules · live ceremonies · the full curriculum</div>
+        <div class="link-url">skool.com/the-frequency-academy-3454</div>
+      </a>
+      <a class="cta-link" href="https://etsy.com/shop/thefrequencyacademy" target="_blank">
+        <div class="link-title">⚡ Frequency Charged™ Devices</div>
+        <div class="link-desc">Cosmic Cakes · Tensor Rings · Water Temples</div>
+        <div class="link-url">etsy.com/shop/thefrequencyacademy</div>
+      </a>
+      <a class="cta-link" href="https://linktr.ee/BaBaKeegs" target="_blank">
+        <div class="link-title">❖ All Links &amp; Portals</div>
+        <div class="link-desc">Music · Spotify · YouTube · Twitch · Booking</div>
+        <div class="link-url">linktr.ee/BaBaKeegs</div>
+      </a>
+    </div>
+
+    <div class="closing-mantra">
+      SOVEREIGNTY · RECIPROCITY<br>
+      UNITY · LOVE
+    </div>
+  </section>
+
+  <div class="footer">
+    The Frequency Academy LLC · BabaKeegs · Frequency Charged™<br>
+    This lesson is offered freely for educational and self-empowerment purposes.<br>
+    Nothing in this document constitutes medical advice.
+  </div>
+
+</main>
+
+<!-- Save bar -->
+<div class="save-bar">
+  <div class="save-status" id="saveStatus">◆ AUTO-SAVED</div>
+  <div>
+    <button onclick="resetLesson()">RESET</button>
+    <button onclick="exportProgress()">EXPORT</button>
+  </div>
+</div>
+
+<script>
+/* ========================================================
+   STATE & PERSISTENCE
+   ======================================================== */
+const STATE_KEY = 'tfa_lesson_emf_awareness_v1';
+const state = {
+  symptoms: {},
+  practices: {},
+  reflection: '',
+  cubit: 'continent',
+  bedroom: { items: {} }
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved) Object.assign(state, JSON.parse(saved));
+  } catch (e) { console.warn('Could not load state', e); }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    flashSave();
+  } catch (e) { console.warn('Could not save state', e); }
+}
+
+let saveTimer = null;
+function flashSave() {
+  const el = document.getElementById('saveStatus');
+  el.textContent = '◆ SAVING...';
+  el.style.color = '#E8C76A';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    el.textContent = '◆ AUTO-SAVED';
+    el.style.color = 'var(--gold)';
+  }, 600);
+}
+
+function resetLesson() {
+  if (!confirm('Reset all progress? This cannot be undone.')) return;
+  localStorage.removeItem(STATE_KEY);
+  location.reload();
+}
+
+function exportProgress() {
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'emf-lesson-progress.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ========================================================
+   PROGRESS BAR + SECTION REVEAL
+   ======================================================== */
+const progressBar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  const pct = Math.min(100, (scrolled / total) * 100);
+  progressBar.style.width = pct + '%';
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+/* ========================================================
+   BACKGROUND PARTICLES
+   ======================================================== */
+const bgCanvas = document.getElementById('bgParticles');
+const bgCtx = bgCanvas.getContext('2d');
+let bgParticles = [];
+
+function initBgParticles() {
+  bgCanvas.width = window.innerWidth;
+  bgCanvas.height = window.innerHeight;
+  bgParticles = [];
+  const count = Math.min(60, Math.floor(window.innerWidth / 25));
+  for (let i = 0; i < count; i++) {
+    bgParticles.push({
+      x: Math.random() * bgCanvas.width,
+      y: Math.random() * bgCanvas.height,
+      r: Math.random() * 1.2 + 0.3,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: (Math.random() - 0.5) * 0.15,
+      a: Math.random() * 0.5 + 0.1
+    });
+  }
+}
+function animateBgParticles() {
+  bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+  bgParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > bgCanvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > bgCanvas.height) p.vy *= -1;
+    bgCtx.beginPath();
+    bgCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    bgCtx.fillStyle = `rgba(201, 168, 76, ${p.a})`;
+    bgCtx.fill();
+  });
+  requestAnimationFrame(animateBgParticles);
+}
+window.addEventListener('resize', initBgParticles);
+initBgParticles();
+animateBgParticles();
+
+/* ========================================================
+   WAVE VISUALIZER
+   ======================================================== */
+const waveCanvas = document.getElementById('waveCanvas');
+const waveCtx = waveCanvas.getContext('2d');
+const waveReadout = document.getElementById('waveReadout');
+let waveMode = 'chaotic';
+let waveT = 0;
+
+function sizeWaveCanvas() {
+  waveCanvas.width = waveCanvas.offsetWidth;
+  waveCanvas.height = waveCanvas.offsetHeight;
+}
+window.addEventListener('resize', sizeWaveCanvas);
+sizeWaveCanvas();
+
+function drawWave() {
+  const w = waveCanvas.width;
+  const h = waveCanvas.height;
+  waveCtx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+  waveCtx.fillRect(0, 0, w, h);
+
+  waveCtx.lineWidth = 2;
+
+  if (waveMode === 'chaotic') {
+    // Layered chaotic waves
+    const colors = ['rgba(255, 80, 80, 0.7)', 'rgba(255, 150, 50, 0.6)', 'rgba(220, 100, 100, 0.5)'];
+    for (let layer = 0; layer < 3; layer++) {
+      waveCtx.strokeStyle = colors[layer];
+      waveCtx.beginPath();
+      for (let x = 0; x <= w; x += 1) {
+        const y = h/2 +
+          Math.sin(x * 0.05 + waveT + layer) * 30 +
+          Math.sin(x * 0.13 + waveT * 1.5 + layer * 2) * 20 +
+          Math.sin(x * 0.31 + waveT * 2.7) * 12 +
+          Math.sin(x * 0.07 + waveT * 0.5) * 18 +
+          (Math.random() - 0.5) * 8;
+        if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+      }
+      waveCtx.stroke();
+    }
+  } else if (waveMode === 'coherent') {
+    // Smooth golden sine
+    waveCtx.strokeStyle = 'rgba(201, 168, 76, 0.9)';
+    waveCtx.shadowBlur = 12;
+    waveCtx.shadowColor = '#C9A84C';
+    waveCtx.beginPath();
+    for (let x = 0; x <= w; x += 1) {
+      const y = h/2 + Math.sin(x * 0.025 + waveT) * 50;
+      if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+    }
+    waveCtx.stroke();
+    waveCtx.shadowBlur = 0;
+
+    // Subtle harmonic
+    waveCtx.strokeStyle = 'rgba(232, 199, 106, 0.4)';
+    waveCtx.beginPath();
+    for (let x = 0; x <= w; x += 1) {
+      const y = h/2 + Math.sin(x * 0.05 + waveT * 2) * 18;
+      if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+    }
+    waveCtx.stroke();
+  } else if (waveMode === 'schumann') {
+    // Slow earthly pulse
+    waveCtx.strokeStyle = 'rgba(120, 220, 150, 0.85)';
+    waveCtx.shadowBlur = 14;
+    waveCtx.shadowColor = '#78dc96';
+    waveCtx.beginPath();
+    for (let x = 0; x <= w; x += 1) {
+      const y = h/2 + Math.sin(x * 0.015 + waveT * 0.4) * 60;
+      if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+    }
+    waveCtx.stroke();
+    waveCtx.shadowBlur = 0;
+  }
+
+  waveT += 0.05;
+  requestAnimationFrame(drawWave);
+}
+drawWave();
+
+document.querySelectorAll('[data-mode]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    waveMode = btn.dataset.mode;
+    const labels = {
+      chaotic: 'Chaotic EMF — overlapping artificial frequencies',
+      coherent: 'Coherent Field — tensor ring / scalar signature',
+      schumann: 'Schumann Resonance — Earth\'s natural pulse · 7.83 Hz'
+    };
+    waveReadout.textContent = labels[waveMode];
+  });
+});
+
+/* ========================================================
+   FREQUENCY SPECTRUM
+   ======================================================== */
+const specMarker = document.getElementById('specMarker');
+const specCards = document.querySelectorAll('.spec-card');
+
+specCards.forEach(card => {
+  card.addEventListener('click', () => {
+    specCards.forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    specMarker.style.left = card.dataset.pos + '%';
+  });
+});
+
+document.getElementById('spectrumBar').addEventListener('click', (e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = ((e.clientX - rect.left) / rect.width) * 100;
+  specMarker.style.left = pct + '%';
+});
+
+/* ========================================================
+   VGCC CELL ANIMATION
+   ======================================================== */
+const cellStage = document.getElementById('cellStage');
+const cellMembrane = document.getElementById('cellMembrane');
+const cellStatus = document.getElementById('cellStatus');
+let cellMode = 'calm';
+let calciumIons = [];
+let vgccChannels = [];
+
+function initVgccChannels() {
+  // Place 8 channels around the membrane
+  vgccChannels.forEach(c => c.remove());
+  vgccChannels = [];
+  const stageRect = { w: 500, h: 320 };
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2;
+    const ch = document.createElement('div');
+    ch.className = 'vgcc-channel';
+    ch.style.left = (50 + 35 * Math.cos(angle)) + '%';
+    ch.style.top = (50 + 35 * Math.sin(angle)) + '%';
+    ch.style.transform = `translate(-50%, -50%) rotate(${angle * 180 / Math.PI}deg)`;
+    cellStage.appendChild(ch);
+    vgccChannels.push(ch);
+  }
+}
+initVgccChannels();
+
+function spawnCalciumIon() {
+  if (cellMode !== 'emf') return;
+  const ion = document.createElement('div');
+  ion.className = 'calcium-ion';
+  // Spawn from random edge
+  const side = Math.floor(Math.random() * 4);
+  const stageRect = cellStage.getBoundingClientRect();
+  let startX, startY;
+  if (side === 0) { startX = Math.random() * stageRect.width; startY = -10; }
+  else if (side === 1) { startX = stageRect.width + 10; startY = Math.random() * stageRect.height; }
+  else if (side === 2) { startX = Math.random() * stageRect.width; startY = stageRect.height + 10; }
+  else { startX = -10; startY = Math.random() * stageRect.height; }
+  ion.style.left = startX + 'px';
+  ion.style.top = startY + 'px';
+  cellStage.appendChild(ion);
+  // Animate toward nucleus
+  const targetX = stageRect.width / 2;
+  const targetY = stageRect.height / 2;
+  const duration = 1800 + Math.random() * 1200;
+  const startTime = performance.now();
+  function animateIon(now) {
+    const t = (now - startTime) / duration;
+    if (t >= 1 || cellMode !== 'emf') {
+      ion.remove();
+      calciumIons = calciumIons.filter(i => i !== ion);
+      return;
+    }
+    const x = startX + (targetX - startX) * t;
+    const y = startY + (targetY - startY) * t;
+    ion.style.left = x + 'px';
+    ion.style.top = y + 'px';
+    ion.style.opacity = 1 - t * 0.5;
+    requestAnimationFrame(animateIon);
+  }
+  requestAnimationFrame(animateIon);
+  calciumIons.push(ion);
+}
+
+let ionInterval = null;
+function setCellMode(mode) {
+  cellMode = mode;
+  if (ionInterval) clearInterval(ionInterval);
+
+  if (mode === 'calm') {
+    cellMembrane.classList.remove('stressed');
+    vgccChannels.forEach(c => c.classList.remove('open'));
+    cellStatus.innerHTML = '🌙 Cellular state: <span class="gold">balanced</span>';
+    calciumIons.forEach(i => i.remove());
+    calciumIons = [];
+  } else if (mode === 'emf') {
+    cellMembrane.classList.add('stressed');
+    vgccChannels.forEach(c => c.classList.add('open'));
+    cellStatus.innerHTML = '⚠ Cellular state: <span style="color:#ff7070">VGCCs open · Ca²⁺ flooding</span>';
+    ionInterval = setInterval(spawnCalciumIon, 250);
+  } else if (mode === 'protected') {
+    cellMembrane.classList.remove('stressed');
+    vgccChannels.forEach(c => c.classList.remove('open'));
+    cellStatus.innerHTML = '⚡ Cellular state: <span class="gold">harmonized · channels closed</span>';
+    calciumIons.forEach(i => i.remove());
+    calciumIons = [];
+  }
+}
+setCellMode('calm');
+
+document.querySelectorAll('[data-cell-mode]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-cell-mode]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    setCellMode(btn.dataset.cellMode);
+  });
+});
+document.querySelector('[data-cell-mode="calm"]').classList.add('active');
+
+/* ========================================================
+   SYMPTOM QUIZ
+   ======================================================== */
+const quizQuestions = document.querySelectorAll('#symptomQuiz .quiz-question');
+const quizResult = document.getElementById('quizResult');
+
+function updateQuizResult() {
+  const total = document.querySelectorAll('#symptomQuiz .quiz-question').length;
+  const checked = Object.values(state.symptoms).filter(v => v).length;
+  const pct = (checked / total) * 100;
+  let title, message, guidance;
+
+  if (checked === 0) {
+    title = '◇';
+    message = 'CHECK ITEMS ABOVE';
+    guidance = 'Be honest with yourself — sovereignty begins here.';
+  } else if (pct < 10) {
+    title = checked + ' / ' + total;
+    message = '⚡ MILD SIGNALS';
+    guidance = 'Your body is whispering. The Daily Practice section below will likely resolve most of these. Focus on Pillar I (Distance) and Pillar II (Bedroom Hygiene) as a starting point — these alone often shift the entire pattern.';
+  } else if (pct < 25) {
+    title = checked + ' / ' + total;
+    message = '⚠ MODERATE LOAD';
+    guidance = 'A real pattern is present. All four pillars apply. Begin with bedroom hygiene tonight, hardwire your work setup this week, and consider a tensor ring near your sleep space. Track which symptoms improve over 30 days — the body responds quickly when given coherent inputs.';
+  } else if (pct < 40) {
+    title = checked + ' / ' + total;
+    message = '⚠ ELEVATED LOAD';
+    guidance = 'Your bioenergetic system is asking for serious attention. Take this with care — but not with fear. Begin all four pillars together. The Cosmic Cake or full Water Temple deserves consideration. Look at all environmental stressors — EMF is rarely the only variable, but it is often a major one.';
+  } else if (pct < 60) {
+    title = checked + ' / ' + total;
+    message = '⚠ HIGH SENSITIVITY';
+    guidance = 'You may be operating in the Electromagnetic Hypersensitivity (EHS) range. Many of these symptoms overlap with autoimmune, hormonal, and chronic inflammatory conditions — EMF is often a hidden amplifier. The full Electromagnetic Healing Sciences module inside TFA was designed for exactly this. Consider working 1:1 — sovereignty is reclaimable.';
+  } else {
+    title = checked + ' / ' + total;
+    message = '⚠ SYSTEMIC OVERLOAD';
+    guidance = 'A significant portion of your bioenergetic system is signaling distress. This is not a verdict — it is a starting point. EMF reduction is one piece; rebuilding the body\'s capacity to handle environmental stressors is the deeper work. Reach out for the Sovereign Path 1:1 mentorship. You do not have to navigate this alone.';
+  }
+
+  quizResult.innerHTML = `
+    <div class="quiz-score">${title}</div>
+    <div class="quiz-message">${message}</div>
+    <div class="quiz-guidance">${guidance}</div>
+  `;
+}
+
+quizQuestions.forEach(q => {
+  const id = q.dataset.q;
+  if (state.symptoms[id]) q.classList.add('checked');
+  q.addEventListener('click', () => {
+    q.classList.toggle('checked');
+    state.symptoms[id] = q.classList.contains('checked');
+    updateQuizResult();
+    saveState();
+  });
+});
+updateQuizResult();
+
+/* ========================================================
+   PRACTICE LIST
+   ======================================================== */
+document.querySelectorAll('#practiceList .quiz-question').forEach(q => {
+  const id = q.dataset.p;
+  if (state.practices[id]) q.classList.add('checked');
+  q.addEventListener('click', () => {
+    q.classList.toggle('checked');
+    state.practices[id] = q.classList.contains('checked');
+    saveState();
+  });
+});
+
+/* ========================================================
+   REFLECTION
+   ======================================================== */
+const reflectionText = document.getElementById('reflectionText');
+reflectionText.value = state.reflection || '';
+let reflectionTimer;
+reflectionText.addEventListener('input', () => {
+  state.reflection = reflectionText.value;
+  clearTimeout(reflectionTimer);
+  reflectionTimer = setTimeout(saveState, 500);
+});
+
+/* ========================================================
+   DISTANCE / INVERSE SQUARE LAW
+   ======================================================== */
+const distanceSlider = document.getElementById('distanceSlider');
+const distanceReadout = document.getElementById('distanceReadout');
+const person = document.getElementById('person');
+const exposureFill = document.getElementById('exposureFill');
+const exposureLabel = document.getElementById('exposureLabel');
+const fieldWave = document.getElementById('fieldWave');
+
+function updateDistance() {
+  const v = parseInt(distanceSlider.value);
+  const stage = document.getElementById('distanceStage');
+  const stageW = stage.offsetWidth;
+  const minX = 95;
+  const maxX = stageW - 40;
+  const personX = minX + (maxX - minX) * (v / 100);
+  person.style.left = personX + 'px';
+
+  // Inverse square approximation - exposure drops fast
+  const distMeters = 0.05 + (v / 100) * 6; // 5cm to 6m
+  const exposure = Math.min(100, 100 / Math.pow(distMeters * 4, 1.5));
+
+  // Distance label
+  let distLabel;
+  if (distMeters < 0.1) distLabel = '2 inches';
+  else if (distMeters < 0.5) distLabel = (distMeters * 100).toFixed(0) + ' cm';
+  else if (distMeters < 2) distLabel = (distMeters * 100).toFixed(0) + ' cm';
+  else distLabel = distMeters.toFixed(1) + ' m';
+
+  distanceReadout.textContent = `${distLabel} · ${exposure.toFixed(0)}% exposure`;
+  exposureFill.style.width = exposure + '%';
+
+  // Field wave size
+  const fieldSize = 200 - (v * 1.5);
+  fieldWave.style.width = fieldSize + 'px';
+  fieldWave.style.height = fieldSize + 'px';
+  fieldWave.style.marginLeft = -fieldSize/2 + 'px';
+  fieldWave.style.marginTop = -fieldSize/2 + 'px';
+
+  // Color of label
+  if (exposure > 60) {
+    exposureLabel.textContent = '⚠ MAXIMUM EXPOSURE';
+    exposureLabel.style.color = '#ff5050';
+  } else if (exposure > 25) {
+    exposureLabel.textContent = '⚠ MODERATE EXPOSURE';
+    exposureLabel.style.color = '#ffc107';
+  } else if (exposure > 5) {
+    exposureLabel.textContent = '◇ LOW EXPOSURE';
+    exposureLabel.style.color = '#aed581';
+  } else {
+    exposureLabel.textContent = '✓ MINIMAL EXPOSURE';
+    exposureLabel.style.color = '#4caf50';
+  }
+}
+distanceSlider.addEventListener('input', updateDistance);
+window.addEventListener('resize', updateDistance);
+setTimeout(updateDistance, 100);
+
+/* ========================================================
+   BEDROOM HEATMAP
+   ======================================================== */
+const heatmapCanvas = document.getElementById('heatmapCanvas');
+const heatCtx = heatmapCanvas.getContext('2d');
+const bedroomScore = document.getElementById('bedroomScore');
+const bedroomRating = document.getElementById('bedroomRating');
+const bedroomHelp = document.getElementById('bedroomHelp');
+const bedroomStage = document.getElementById('bedroomStage');
+
+function sizeHeatmap() {
+  heatmapCanvas.width = bedroomStage.offsetWidth;
+  heatmapCanvas.height = bedroomStage.offsetHeight;
+}
+window.addEventListener('resize', () => {
+  sizeHeatmap();
+  drawBedroomHeatmap();
+});
+
+function drawBedroomHeatmap() {
+  sizeHeatmap();
+  const w = heatmapCanvas.width;
+  const h = heatmapCanvas.height;
+  heatCtx.clearRect(0, 0, w, h);
+
+  // Get all active sources
+  const sources = [];
+  document.querySelectorAll('.room-element').forEach(el => {
+    const isActive = el.classList.contains('active');
+    if (!isActive) return;
+    const rect = el.getBoundingClientRect();
+    const stageRect = bedroomStage.getBoundingClientRect();
+    const cx = rect.left - stageRect.left + rect.width / 2;
+    const cy = rect.top - stageRect.top + rect.height / 2;
+    const emf = parseInt(el.dataset.emf);
+    sources.push({ x: cx, y: cy, emf });
+  });
+
+  // Render heatmap on a grid
+  const cellSize = 8;
+  for (let y = 0; y < h; y += cellSize) {
+    for (let x = 0; x < w; x += cellSize) {
+      let intensity = 0;
+      sources.forEach(s => {
+        const dx = x - s.x;
+        const dy = y - s.y;
+        const d = Math.sqrt(dx*dx + dy*dy) + 1;
+        intensity += s.emf * 1500 / (d * d);
+      });
+      intensity = Math.max(-100, Math.min(100, intensity));
+      let color;
+      if (intensity > 0) {
+        const r = Math.min(255, intensity * 4);
+        const g = Math.max(0, 100 - intensity * 1.5);
+        const a = Math.min(0.5, intensity / 200);
+        color = `rgba(255, ${g}, 0, ${a})`;
+      } else {
+        const a = Math.min(0.3, Math.abs(intensity) / 200);
+        color = `rgba(201, 168, 76, ${a})`;
+      }
+      heatCtx.fillStyle = color;
+      heatCtx.fillRect(x, y, cellSize, cellSize);
+    }
+  }
+
+  // Calculate bed area score (look at bottom-center of room)
+  const bedX = w / 2;
+  const bedY = h * 0.78;
+  let bedIntensity = 0;
+  sources.forEach(s => {
+    const dx = bedX - s.x;
+    const dy = bedY - s.y;
+    const d = Math.sqrt(dx*dx + dy*dy) + 1;
+    bedIntensity += s.emf * 1500 / (d * d);
+  });
+
+  let scoreLabel, scoreText, scoreColor;
+  if (bedIntensity > 30) {
+    scoreLabel = 'HIGH'; scoreText = 'CHAOTIC FIELD'; scoreColor = '#ff5050';
+  } else if (bedIntensity > 10) {
+    scoreLabel = 'MEDIUM'; scoreText = 'MODERATE FIELD'; scoreColor = '#ffc107';
+  } else if (bedIntensity > -3) {
+    scoreLabel = 'LOW'; scoreText = 'BALANCED FIELD'; scoreColor = '#aed581';
+  } else if (bedIntensity > -12) {
+    scoreLabel = 'CLEAN'; scoreText = 'COHERENT FIELD'; scoreColor = '#4caf50';
+  } else {
+    scoreLabel = 'SACRED'; scoreText = 'SANCTUARY ESTABLISHED'; scoreColor = '#C9A84C';
+  }
+  bedroomScore.textContent = scoreLabel;
+  bedroomScore.style.color = scoreColor;
+  bedroomRating.textContent = scoreText;
+}
+
+document.querySelectorAll('.room-element').forEach(el => {
+  const id = el.dataset.emf + '_' + (el.querySelector('.label').textContent);
+  if (state.bedroom.items[id] !== undefined) {
+    if (state.bedroom.items[id]) el.classList.add('active');
+    else { el.classList.remove('active'); el.classList.add('inactive'); }
+  }
+  el.addEventListener('click', () => {
+    if (el.classList.contains('active')) {
+      el.classList.remove('active');
+      el.classList.add('inactive');
+    } else {
+      el.classList.remove('inactive');
+      el.classList.add('active');
+    }
+    state.bedroom.items[id] = el.classList.contains('active');
+    drawBedroomHeatmap();
+    saveState();
+  });
+});
+
+setTimeout(drawBedroomHeatmap, 200);
+
+/* ========================================================
+   TENSOR RING — CUBIT SELECTOR
+   ======================================================== */
+const cubits = {
+  continent: { name: 'SACRED CONTINENT', freq: '68 MHz', color: '#8b6914', particle: '#daa520', quality: 'Earth resonance, deep grounding. The cubit of the mineral kingdom — connection to land, ancestral memory, and the body\'s relationship with the planet itself.' },
+  ramu: { name: 'RA-MU', freq: '404 MHz', color: '#9c27b0', particle: '#ce93d8', quality: 'Spiritual remembrance, lemurian current. Ancient wisdom pathways, soul memory, and the bridge between dream and waking realms.' },
+  dragon: { name: 'DRAGON', freq: '432 MHz', color: '#e53935', particle: '#ff8a65', quality: 'Heart coherence, sovereign current. The cubit of fierce love — power, presence, and the unification of will with spirit.' },
+  viking: { name: 'VIKING', freq: '443 MHz', color: '#1976d2', particle: '#90caf9', quality: 'Warrior clarity, ancestral lineage. Direct, decisive action; honoring the line that brought you here; clearing fear-based patterns.' },
+  cosmic: { name: 'COSMIC CONNECTOR', freq: '528 MHz', color: '#43a047', particle: '#81c784', quality: 'DNA repair, love frequency. The Solfeggio frequency of restoration — cellular regeneration, opening the heart, and remembering wholeness.' },
+  scorpion: { name: 'SCORPION', freq: '764 MHz', color: '#5d4037', particle: '#a1887f', quality: 'Transmutation, shadow integration. The cubit of the underworld journey — alchemizing pain, releasing what no longer serves, deep death-and-rebirth work.' },
+  stu: { name: 'STU MULTI-FREQUENCY', freq: '144 / 177 / 188 / 333 / 764 MHz', color: '#C9A84C', particle: '#E8C76A', quality: 'A layered field, broad-spectrum harmonization. Holds multiple cubit signatures simultaneously — versatile, integrative, and well-suited as a daily companion.' }
+};
+
+const ringSvg = document.getElementById('ringSvg');
+const mainRing = document.getElementById('mainRing');
+const ringField = document.getElementById('ringField');
+const ringFieldLines = document.getElementById('ringFieldLines');
+const ringParticles = document.getElementById('ringParticles');
+const cubitName = document.getElementById('cubitName');
+const cubitFreq = document.getElementById('cubitFreq');
+const cubitQuality = document.getElementById('cubitQuality');
+
+function setCubit(key) {
+  const c = cubits[key];
+  state.cubit = key;
+  cubitName.textContent = c.name;
+  cubitFreq.textContent = c.freq;
+  cubitQuality.textContent = c.quality;
+  mainRing.setAttribute('stroke', c.color);
+  // Update glow gradient
+  const stops = ringSvg.querySelectorAll('#ringGlow stop');
+  stops[0].setAttribute('stop-color', c.color);
+  stops[1].setAttribute('stop-color', c.color);
+
+  // Generate field lines
+  ringFieldLines.innerHTML = '';
+  const numLines = 12;
+  for (let i = 0; i < numLines; i++) {
+    const angle = (i / numLines) * 360;
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', 200);
+    line.setAttribute('y1', 200);
+    const x2 = 200 + 165 * Math.cos(angle * Math.PI / 180);
+    const y2 = 200 + 165 * Math.sin(angle * Math.PI / 180);
+    line.setAttribute('x2', x2);
+    line.setAttribute('y2', y2);
+    line.setAttribute('stroke', c.color);
+    line.setAttribute('stroke-width', '0.5');
+    line.setAttribute('opacity', '0.3');
+    ringFieldLines.appendChild(line);
+  }
+  // Rotate field lines slowly
+  const rotateAnim = document.createElementNS('http://www.w3.org/2000/svg', 'animateTransform');
+  rotateAnim.setAttribute('attributeName', 'transform');
+  rotateAnim.setAttribute('type', 'rotate');
+  rotateAnim.setAttribute('from', '0 200 200');
+  rotateAnim.setAttribute('to', '360 200 200');
+  rotateAnim.setAttribute('dur', '60s');
+  rotateAnim.setAttribute('repeatCount', 'indefinite');
+  ringFieldLines.appendChild(rotateAnim);
+
+  // Generate orbiting particles
+  ringParticles.innerHTML = '';
+  for (let i = 0; i < 6; i++) {
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    p.setAttribute('r', 3);
+    p.setAttribute('fill', c.particle);
+    p.setAttribute('filter', 'url(#goldGlow)');
+
+    // Orbital animation
+    const orbit = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+    const r = 120;
+    const startAngle = (i / 6) * 360;
+    const path = `M 200 200 m -${r}, 0 a ${r},${r} 0 1,1 ${r*2},0 a ${r},${r} 0 1,1 -${r*2},0`;
+    orbit.setAttribute('path', path);
+    orbit.setAttribute('dur', (8 + i) + 's');
+    orbit.setAttribute('repeatCount', 'indefinite');
+    orbit.setAttribute('begin', (-i * 1.3) + 's');
+    p.appendChild(orbit);
+    ringParticles.appendChild(p);
+  }
+
+  // Update active button
+  document.querySelectorAll('.cubit-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-cubit="${key}"]`).classList.add('active');
+}
+
+document.querySelectorAll('.cubit-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    setCubit(btn.dataset.cubit);
+    saveState();
+  });
+});
+
+/* ========================================================
+   INIT
+   ======================================================== */
+loadState();
+// Re-apply state to UI elements
+quizQuestions.forEach(q => {
+  if (state.symptoms[q.dataset.q]) q.classList.add('checked');
+});
+document.querySelectorAll('#practiceList .quiz-question').forEach(q => {
+  if (state.practices[q.dataset.p]) q.classList.add('checked');
+});
+reflectionText.value = state.reflection || '';
+updateQuizResult();
+setCubit(state.cubit || 'continent');
+
+</script>
+</body>
+</html>
