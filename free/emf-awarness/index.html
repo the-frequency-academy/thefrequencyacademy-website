@@ -184,64 +184,78 @@
     50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
   }
 
-  /* Hero seal SVG container */
-  .hero-seal {
-    width: 220px;
-    height: 220px;
+  /* Hero brand - logo with decorative ornaments */
+  .hero-brand {
+    width: 320px;
     margin: 30px auto;
     position: relative;
     animation: fadeIn 2.5s ease;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 30px 0;
   }
-  .hero-seal .ring-outer,
-  .hero-seal .ring-inner {
+  .hero-ornament {
+    color: var(--gold);
+    font-size: 1.4rem;
+    letter-spacing: 0.6em;
+    opacity: 0.7;
+    text-shadow: 0 0 15px rgba(201, 168, 76, 0.5);
+    animation: ornamentGlow 4s ease-in-out infinite;
+  }
+  .hero-ornament-top { margin-bottom: 18px; }
+  .hero-ornament-bottom { margin-top: 18px; }
+
+  .hero-flourish {
     position: absolute;
-    border: 2px solid var(--gold);
-    border-radius: 50%;
+    width: 50px;
+    height: 100px;
+    color: var(--gold);
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
   }
-  .hero-seal .ring-outer {
-    width: 220px; height: 220px;
-    animation: rotateClockwise 40s linear infinite;
-    border-style: dashed;
-    opacity: 0.4;
-  }
-  .hero-seal .ring-inner {
-    width: 160px; height: 160px;
-    animation: rotateCounterClockwise 30s linear infinite;
-    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
-    border-width: 1px;
-  }
-  .hero-seal .core {
+  .hero-flourish svg { width: 100%; height: 100%; }
+  .hero-flourish-left { left: -10px; }
+  .hero-flourish-right { right: -10px; }
+
+  .hero-logo-wrap {
     position: relative;
     z-index: 2;
-    text-align: center;
-    color: var(--gold);
+    width: 240px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    isolation: isolate;
+    background: var(--navy-deep);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(201, 168, 76, 0.3), inset 0 0 30px rgba(201, 168, 76, 0.15);
   }
-  .hero-seal .core-symbol {
-    font-size: 3rem;
-    text-shadow: 0 0 20px var(--gold);
-    animation: pulse 3s ease-in-out infinite;
-  }
-  .hero-seal .core-text {
-    font-family: 'Cinzel', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    margin-top: 5px;
+  .hero-logo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    animation: logoPulse 5s ease-in-out infinite;
+    mix-blend-mode: screen;
   }
 
-  @keyframes rotateClockwise {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  @keyframes rotateCounterClockwise {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
-  }
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.7; transform: scale(1.08); }
+  }
+  @keyframes logoPulse {
+    0%, 100% { filter: drop-shadow(0 0 28px rgba(201, 168, 76, 0.55)); }
+    50% { filter: drop-shadow(0 0 42px rgba(201, 168, 76, 0.85)); }
+  }
+  @keyframes ornamentGlow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
   }
 
   /* Section styling */
@@ -1150,6 +1164,24 @@
     border-top: 1px solid rgba(201, 168, 76, 0.3);
     border-bottom: 1px solid rgba(201, 168, 76, 0.3);
   }
+  .cta-logo-wrapper {
+    margin-bottom: 30px;
+    display: inline-block;
+    background: var(--navy-deep);
+    padding: 8px;
+    border-radius: 50%;
+    isolation: isolate;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(201, 168, 76, 0.25);
+  }
+  .cta-logo {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    animation: pulse 4s ease-in-out infinite;
+    mix-blend-mode: screen;
+    display: block;
+  }
   .cta-section h2 {
     font-size: clamp(1.8rem, 4vw, 2.8rem);
     margin-bottom: 12px;
@@ -1215,10 +1247,33 @@
 
   .footer {
     text-align: center;
-    padding: 30px 20px 80px;
-    color: rgba(232, 228, 208, 0.5);
-    font-size: 0.75rem;
-    line-height: 1.6;
+    padding: 50px 20px 100px;
+    color: rgba(232, 228, 208, 0.7);
+    font-size: 0.8rem;
+    line-height: 1.7;
+    position: relative;
+  }
+  .footer-watermark {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    opacity: 0.6;
+    background: var(--navy-deep);
+    border-radius: 50%;
+    padding: 6px;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .footer-watermark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: screen;
+    display: block;
+  }
+  .footer-text {
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   /* Responsive */
@@ -1229,6 +1284,12 @@
     main { padding: 40px 20px 100px; }
     .room-element .label { font-size: 0.5rem; }
     .room-element .icon { font-size: 1.3rem; }
+    .hero-brand { width: 260px; padding: 24px 0; }
+    .hero-logo-wrap { width: 170px; height: 170px; }
+    .hero-flourish { width: 36px; height: 80px; }
+    .hero-flourish-left { left: -4px; }
+    .hero-flourish-right { right: -4px; }
+    .cta-logo { width: 80px; height: 80px; }
   }
 
   /* Utility */
@@ -1256,13 +1317,28 @@
     <div class="hero-tag">FREE INTERACTIVE LESSON</div>
     <h1>EMF Awareness</h1>
     <div class="hero-subtitle">The Invisible Field &amp; The Sovereign Body</div>
-    <div class="hero-seal">
-      <div class="ring-outer"></div>
-      <div class="ring-inner"></div>
-      <div class="core">
-        <div class="core-symbol">⚡</div>
-        <div class="core-text">FREQUENCY<br>ACADEMY</div>
+    <div class="hero-brand">
+      <div class="hero-ornament hero-ornament-top">✦ ❖ ✦</div>
+      <div class="hero-flourish hero-flourish-left">
+        <svg viewBox="0 0 60 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 60 0 Q 20 30 30 60 Q 40 90 60 120" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/>
+          <circle cx="30" cy="60" r="3" fill="currentColor" opacity="0.8"/>
+          <circle cx="42" cy="30" r="1.5" fill="currentColor" opacity="0.5"/>
+          <circle cx="42" cy="90" r="1.5" fill="currentColor" opacity="0.5"/>
+        </svg>
       </div>
+      <div class="hero-flourish hero-flourish-right">
+        <svg viewBox="0 0 60 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 0 0 Q 40 30 30 60 Q 20 90 0 120" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/>
+          <circle cx="30" cy="60" r="3" fill="currentColor" opacity="0.8"/>
+          <circle cx="18" cy="30" r="1.5" fill="currentColor" opacity="0.5"/>
+          <circle cx="18" cy="90" r="1.5" fill="currentColor" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="hero-logo-wrap">
+        <img src="../the_frequency_academy_-babakeegs_logo.png" alt="The Frequency Academy · BabaKeegs" class="hero-logo" onerror="this.onerror=null; this.src='../watermark_white_full.png';">
+      </div>
+      <div class="hero-ornament hero-ornament-bottom">✦ ❖ ✦</div>
     </div>
     <div class="scroll-cue">SCROLL TO BEGIN</div>
   </section>
@@ -1693,7 +1769,9 @@
 
   <!-- ============ CTA ============ -->
   <section class="cta-section">
-    <div class="ornament">✦ ❖ ✦</div>
+    <div class="cta-logo-wrapper">
+      <img src="../the_frequency_academy_-babakeegs_logo.png" alt="The Frequency Academy" class="cta-logo" onerror="this.onerror=null; this.src='../watermark_white_full.png';">
+    </div>
     <h2>The Path Continues</h2>
     <div class="lead">YOU HAVE STEPPED INTO THE CURRENT</div>
 
@@ -1710,9 +1788,14 @@
         <div class="link-desc">Cosmic Cakes · Tensor Rings · Water Temples</div>
         <div class="link-url">etsy.com/shop/thefrequencyacademy</div>
       </a>
+      <a class="cta-link" href="https://open.spotify.com/artist/65yd0YRvyO6NVCSrfxhIZK" target="_blank">
+        <div class="link-title">🎵 BabaKeegs · Music</div>
+        <div class="link-desc">Handpan · Native flute · ceremonial soundscapes</div>
+        <div class="link-url">open.spotify.com/artist/BabaKeegs</div>
+      </a>
       <a class="cta-link" href="https://linktr.ee/BaBaKeegs" target="_blank">
         <div class="link-title">❖ All Links &amp; Portals</div>
-        <div class="link-desc">Music · Spotify · YouTube · Twitch · Booking</div>
+        <div class="link-desc">YouTube · Twitch · Booking · Heart Space</div>
         <div class="link-url">linktr.ee/BaBaKeegs</div>
       </a>
     </div>
@@ -1724,9 +1807,16 @@
   </section>
 
   <div class="footer">
-    The Frequency Academy LLC · BabaKeegs · Frequency Charged™<br>
-    This lesson is offered freely for educational and self-empowerment purposes.<br>
-    Nothing in this document constitutes medical advice.
+    <div class="footer-watermark">
+      <img src="../watermark_white_full.png" alt="" onerror="this.style.display='none';">
+    </div>
+    <div class="footer-text">
+      <strong style="color: var(--gold); font-family: 'Cinzel', serif; letter-spacing: 0.2em; font-size: 0.85rem;">THE FREQUENCY ACADEMY LLC</strong><br>
+      <span style="opacity: 0.8;">BabaKeegs · Frequency Charged™ · Technology of Remembrance</span><br><br>
+      <em>This lesson is offered freely for educational and self-empowerment purposes.<br>
+      Nothing in this document constitutes medical advice.</em><br><br>
+      <span style="font-family: 'Cinzel', serif; letter-spacing: 0.3em; color: var(--gold); font-size: 0.7rem;">© 2026 · ALL RIGHTS RESERVED</span>
+    </div>
   </div>
 
 </main>
