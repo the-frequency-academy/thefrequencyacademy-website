@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jessika's Charging Plate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Karla:wght@400;500;700&display=swap">
+<style>
+/* Layout: one narrow reading column, front of the plate then back, like turning the plate over in your hands.
+   Palette drawn from the plate's stones: smoky-black resin, garnet red, gold rings, citrine, fire quartz, and the blue-green flashes of the back. */
+:root{
+  --bg:#121114; --surface:#1c1a1f; --line:#2f2b33;
+  --fg:#efe9e1; --muted:#aaa1a6;
+  --garnet:#b8304a; --gold:#dcb85c; --amber:#e6a53e; --fire:#d0623f; --flash:#62b9b1;
+  --ember:var(--gold);
+  --display:"Fraunces", Georgia, "Times New Roman", serif;
+  --body:"Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f3f0ec; --surface:#fffdfb; --line:#ddd5cf;
+    --fg:#1c1719; --muted:#5f555a;
+    --garnet:#8c1d30; --gold:#8a6a1c; --amber:#a2620f; --fire:#a8452a; --flash:#2b7c76;
+    --ember:var(--garnet);
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f3f0ec; --surface:#fffdfb; --line:#ddd5cf;
+  --fg:#1c1719; --muted:#5f555a;
+  --garnet:#8c1d30; --gold:#8a6a1c; --amber:#a2620f; --fire:#a8452a; --flash:#2b7c76;
+  --ember:var(--garnet);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+.wrap{max-width:680px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:500;text-wrap:balance;line-height:1.15;margin:0}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.back .eyebrow, .back ol.mats li::before{color:var(--flash)}
+figure{margin:0;display:grid;gap:8px;justify-items:center}
+figure img{width:min(480px,100%);height:auto;border-radius:6px;box-shadow:0 0 0 1px var(--line),0 18px 40px -18px #000}
+figure figcaption{font-size:13px;color:var(--muted)}
+header{padding-block:56px 32px;display:grid;gap:14px}
+header h1{font-size:clamp(2.2rem,8vw,3.4rem);font-weight:300}
+header h1 em{font-style:italic;color:var(--ember)}
+.lede{font-size:1.15rem;color:var(--muted);margin:0;max-width:60ch}
+.arc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.arc div{border-top:2px solid var(--c);padding-top:8px;font-size:13px;color:var(--muted)}
+.arc b{display:block;color:var(--fg);font-family:var(--display);font-weight:500;font-size:16px}
+@media (max-width:460px){.arc{grid-template-columns:repeat(2,1fr);row-gap:14px}}
+section{padding-block:36px 8px;display:grid;gap:18px}
+section > h2{font-size:1.9rem}
+.intro{color:var(--muted);margin:0}
+ol.mats{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:m var(--start,0)}
+ol.mats li{counter-increment:m;display:grid;grid-template-columns:2.4rem 1fr;gap:4px 12px;padding-block:18px;border-top:1px solid var(--line)}
+ol.mats li::before{content:counter(m);font-family:var(--display);color:var(--gold);font-size:1.25rem;line-height:1.3;font-variant-numeric:tabular-nums}
+.m{min-width:0;display:grid;gap:6px}
+.m h3{font-size:1.25rem}
+.place{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.m p{margin:0}
+.sci{font-size:14.5px;color:var(--muted);padding-left:12px;border-left:2px solid var(--line)}
+.sci b{color:var(--fg);font-weight:500}
+.poem{font-family:var(--display);font-style:italic;font-weight:300;font-size:1.3rem;line-height:1.45;color:var(--ember);margin:8px 0 0;padding:22px 0;border-block:1px solid var(--line)}
+ul.plain{margin:0;padding-left:1.1rem;display:grid;gap:8px}
+.note{font-size:14px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px}
+footer{padding-top:40px;font-size:14px;color:var(--muted);display:grid;gap:6px}
+footer strong{font-family:var(--display);color:var(--fg);font-weight:500;font-size:1.1rem}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Frequency Charged™ · FC-PLAT-S002 · Custom build for Jessika Parker</span>
+  <h1>Jessika's <em>Charging Plate</em></h1>
+  <p class="lede">A hand-cast resin mandala charging plate that works two ways: actively, charging the items you place on it and the space it sits in, and passively, simply by being near you. Each layer moves inward in one arc.</p>
+  <div class="arc" aria-label="The energetic arc of the plate">
+    <div style="--c:var(--garnet)"><b>Ground</b>zinc, garnet</div>
+    <div style="--c:var(--fire)"><b>Transform</b>fire quartz</div>
+    <div style="--c:var(--amber)"><b>Manifest</b>citrine</div>
+    <div style="--c:var(--gold)"><b>Seal</b>brass signature</div>
+  </div>
+</header>
+
+<section>
+  <span class="eyebrow">Side one</span>
+  <h2>The Front: the Flower</h2>
+  <figure><img src="front.jpg" alt="Front of the plate: a lotus mandala in smoky resin with garnet chips, two twisted gold rings and a gold wire signature at the center" width="900" height="900"><figcaption>The front of Jessika's plate</figcaption></figure>
+  <p class="intro">Listed in the order it was built, from the outer border to the center, then the top layer.</p>
+  <ol class="mats">
+    <li><div class="m"><span class="place">Full plate</span><h3>Lotus mandala base</h3>
+      <p>Petals and rings unfold from a single center, the way all creation unfolds from source. The mandala is the field that holds every intention set upon it.</p>
+      <p class="sci"><b>Science:</b> cast resin in a radial pattern.</p></div></li>
+    <li><div class="m"><span class="place">Outer border</span><h3>Zinc beads</h3>
+      <p>The guardians at the gate. Zinc draws the boundary and keeps the field contained. Paired with the copper inside, it holds the polarity of receiving and giving.</p>
+      <p class="sci"><b>Science:</b> a conductive metal. Zinc and copper are the classic pair used in early batteries; sealed in resin, no current flows.</p></div></li>
+    <li><div class="m"><span class="place">Around the outer ring</span><h3>Red garnet</h3>
+      <p>The root. Garnet anchors the whole plate to the earth before any energy moves inward, bringing vitality, life force and commitment.</p>
+      <p class="sci"><b>Science:</b> an iron-aluminum silicate, 6.5–7.5 on the Mohs scale. Its deep red comes from iron.</p></div></li>
+    <li><div class="m"><span class="place">Outer ring · ¼ cubit copper, gold finish</span><h3>528 Hz Cosmic Connector tensor ring</h3>
+      <p>The heart-space ring, tuned to 528 Hz, the Solfeggio tone of love. It carries a calming, soothing, deeply relaxing energy and is said to raise awareness, bring the left and right hemispheres of the mind into balance, and lead you back to your authentic self. It works with the heart, throat, third-eye (pineal) and crown chakras and the elements of water, fire and aether. The gold finish adds solar, divine-masculine light.</p>
+      <p class="sci"><b>Science:</b> a copper coil 9.4487 inches long, a quarter of a 37.795-inch cubit. Copper is among the best electrical and thermal conductors. "528 Hz" names the ring's tuning, not a measured emission.</p></div></li>
+    <li><div class="m"><span class="place">Inside the outer ring</span><h3>Fire quartz</h3>
+      <p>The forge. Fire quartz turns raw energy into courage and usable will, the point where grounding becomes transformation.</p>
+      <p class="sci"><b>Science:</b> quartz with hematite inclusions, which are the red-orange flecks.</p></div></li>
+    <li><div class="m"><span class="place">Inner ring · ⅛ cubit copper, gold finish</span><h3>STU Balance &amp; Harmony ring</h3>
+      <p>Cut to the Standard Teotihuacan Unit, the measure of the ancient city in Mexico, as taught in Brian Besco's (Twisted Sage) Harmony work. It weaves past, present and future together and connects you to your ancestral lineage, the elementals, the Central Sun and the core of the Earth. It is said to awaken extrasensory gifts, structure water, strengthen the bond with your Higher Self and clear distortion from the field around the body. It brings balance of mind, body and spirit, and the feeling of being at home on Earth.</p>
+      <p class="sci"><b>Science:</b> a copper coil 5.2135 inches long, an eighth of a 41.7086-inch (105.94 cm) cubit.</p></div></li>
+    <li><div class="m"><span class="place">Center</span><h3>Citrine</h3>
+      <p>The purpose of the piece. Citrine is the stone of manifestation, abundance, confidence and personal power, and is said never to hold on to negativity.</p>
+      <p class="sci"><b>Science:</b> quartz colored yellow by trace iron.</p></div></li>
+    <li><div class="m"><span class="place">Center · straight-line sacred cubit</span><h3>Brass light language signature</h3>
+      <p>The maker's seal. A sigil in light language that encodes the plate's intention, directive lines set against the receiving circles.</p>
+      <p class="sci"><b>Science:</b> brass is an alloy of copper and zinc, so it joins the border and the rings in one metal.</p></div></li>
+    <li><div class="m"><span class="place">Top layer</span><h3>Crushed quartz</h3>
+      <p>The universal amplifier, raising everything beneath it.</p>
+      <p class="sci"><b>Science:</b> silicon dioxide. A single quartz crystal is piezoelectric, producing a small charge under pressure, which is why quartz keeps time in watches.</p></div></li>
+    <li><div class="m"><span class="place">Top layer</span><h3>Mother of pearl</h3>
+      <p>Moon and water. Mother of pearl brings calm, protection and the divine feminine, softening the fire and sun of the layers below.</p>
+      <p class="sci"><b>Science:</b> nacre, made of aragonite plates bound by protein. Its shimmer comes from light interference, not pigment.</p></div></li>
+  </ol>
+</section>
+
+<section class="back">
+  <span class="eyebrow">Side two</span>
+  <h2>The Back: the Hearth Blend</h2>
+  <figure><img src="back.jpg" alt="Back of the plate: dark speckled resin with fine glints, blue-green flashes and small copper flecks" width="900" height="900"><figcaption>The back of Jessika's plate</figcaption></figure>
+  <p class="intro">Turn the plate over. The dark, speckled back holds a blend gathered from sacred fire, resin, stone and metal.</p>
+  <ol class="mats" style="--start:10">
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Sacred fire ashes: cedar, oak, pine</h3>
+      <p>Fire's memory made earth. The ashes carry the prayers and ceremonies burned into them. Cedar purifies, oak endures, pine renews.</p>
+      <p class="sci"><b>Science:</b> wood ash is the mineral remainder of burning, mostly calcium and potassium compounds.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Frankincense, myrrh, copal</h3>
+      <p>The sacred smoke of temple and ceremony: prayer, consecration and the lifting of intention.</p>
+      <p class="sci"><b>Science:</b> aromatic tree resins. Frankincense comes from Boswellia trees, myrrh from Commiphora, and copal from several tropical trees.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Black tourmaline</h3>
+      <p>The shield. It grounds the plate and turns back whatever doesn't belong.</p>
+      <p class="sci"><b>Science:</b> schorl, an iron-rich boron silicate. Tourmaline is piezoelectric and pyroelectric, building a charge under pressure or heat.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Pink tourmaline</h3>
+      <p>Heart-opening tenderness that balances the shield.</p>
+      <p class="sci"><b>Science:</b> elbaite tourmaline, colored pink by manganese.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Shungite</h3>
+      <p>Ancient carbon, the cleanser and protector.</p>
+      <p class="sci"><b>Science:</b> a carbon-rich rock from Karelia, Russia, about two billion years old.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Blue volcanic glass</h3>
+      <p>Earth's fire cooled into a mirror. It cuts through illusion and shows what is true.</p>
+      <p class="sci"><b>Science:</b> silica glass, colored blue by trace metals.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Dragon's blood jasper</h3>
+      <p>Dragon vitality and courage, the dragon lineage carried into the plate.</p>
+      <p class="sci"><b>Science:</b> green epidote with red piemontite.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Selenite</h3>
+      <p>The light-bearer, clearing and calming the whole field.</p>
+      <p class="sci"><b>Science:</b> crystalline gypsum. It is soft and slowly dissolves in water, so it is fully sealed in resin here.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Crushed clear quartz</h3>
+      <p>Amplifies everything in the blend.</p>
+      <p class="sci"><b>Science:</b> silicon dioxide, the same mineral as the front's top layer.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Copper, aluminum and steel shavings</h3>
+      <p>The conductive web that carries the charge through the blend and spreads it evenly.</p>
+      <p class="sci"><b>Science:</b> all three metals conduct electricity; copper conducts best.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Plasma GANS</h3>
+      <p>The light-matter layer.</p>
+      <p class="sci"><b>Science:</b> a preparation from the Keshe Foundation, made by treating coated metals in salt water. Its claimed effects have not been tested in published research.</p></div></li>
+    <li><div class="m"><span class="place">Hearth Blend</span><h3>Colloidal gold, silver and copper</h3>
+      <p>The noble trinity: solar gold, lunar silver and the copper that bridges them.</p>
+      <p class="sci"><b>Science:</b> very fine metal particles suspended in liquid.</p></div></li>
+  </ol>
+  <p class="poem">The flower faces the world. The fire faces you. The ashes are the part that remembers.</p>
+</section>
+
+<section>
+  <h2>Geometry</h2>
+  <ul class="plain">
+    <li><b>The mandala:</b> one pattern repeating outward from the center, creation radiating from source.</li>
+    <li><b>Two cubits, two rings:</b> each ring is cut from a different sacred measure. The outer ring follows the 528 Hz Cosmic Connector cubit, for the heart. The inner ring follows the Teotihuacan cubit, for balance and harmony. Together they nest heart within balance.</li>
+    <li><b>Circle and line:</b> the rings receive and contain. The straight brass signature directs. Together they hold and send.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>How to use it</h2>
+  <ul class="plain">
+    <li><b>Active, charging items:</b> set crystals, jewelry, tools or a glass of water on the plate to charge them.</li>
+    <li><b>Active, charging a space:</b> place the plate in a room, on an altar or under a bed to charge the space around it.</li>
+    <li><b>Passive:</b> keep it near you, on a desk, nightstand or in a bag. It works simply by being close to the person it was made for.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Care</h2>
+  <ul class="plain">
+    <li>Wipe with a soft, dry or slightly damp cloth. No solvents or harsh cleaners.</li>
+    <li>Don't soak or submerge the plate.</li>
+    <li>Keep it out of long direct sun, which can yellow resin, and away from heat.</li>
+    <li>The plate is not food-safe; keep food off the surface.</li>
+  </ul>
+  <p class="note">The science notes describe the physical materials. The meanings are traditional and energetic associations, matters of practice rather than scientific or medical claims.</p>
+</section>
+
+<footer>
+  <strong>Frequency Charged™</strong>
+  <span>Hand-built by BabaKeegs. This build is covered by the Frequency Charged™ Certificate of Authenticity.</span>
+</footer>
+</div>
+
+</body>
+</html>
